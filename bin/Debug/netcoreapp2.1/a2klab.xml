@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>a2klab</name>
+    </assembly>
+    <members>
+        <member name="T:a2klab.Controllers.ValuesController">
+            Retorna valores!
+        </member>
+        <member name="M:a2klab.Controllers.ValuesController.Get">
+            <summary>
+            Retorna un valor aleatorio
+            </summary>
+            <remarks>
+            Este servicio pretende servir de ejemplo para crear nuevos microservicios
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.ValuesController.Get(System.Int32)">
+            GET api/values/5
+        </member>
+        <member name="M:a2klab.Controllers.ValuesController.Post(System.String)">
+            POST api/values
+        </member>
+        <member name="M:a2klab.Controllers.ValuesController.Put(System.Int32,System.String)">
+            PUT api/values/5
+        </member>
+        <member name="M:a2klab.Controllers.ValuesController.Delete(System.Int32)">
+            DELETE api/values/5
+        </member>
+    </members>
+</doc>

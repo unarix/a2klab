@@ -12,3 +12,5 @@
 /home/unarix/Documentos/code/a2klab/obj/Debug/netcoreapp2.1/a2klab.RazorTargetAssemblyInfo.cache
 /home/unarix/Documentos/code/a2klab/obj/Debug/netcoreapp2.1/a2klab.dll
 /home/unarix/Documentos/code/a2klab/obj/Debug/netcoreapp2.1/a2klab.pdb
+/home/unarix/Documentos/code/a2klab/bin/Debug/netcoreapp2.1/a2klab.xml
+/home/unarix/Documentos/code/a2klab/obj/Debug/netcoreapp2.1/a2klab.xml

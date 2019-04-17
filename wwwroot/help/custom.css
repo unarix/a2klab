@@ -1,0 +1,16 @@
+.swagger-ui .topbar {
+    background-color: #000;
+    border-bottom: 3px solid #666;
+}
+
+.swagger-ui .topbar .link{
+    content:url("http://www.aa2000.com.ar/img/logo_aa2000.png");
+}
+
+.swagger-ui .topbar .select-label span{
+    visibility: hidden;
+}
+
+.swagger-ui .info .title{
+    font-size: 3ch
+}
