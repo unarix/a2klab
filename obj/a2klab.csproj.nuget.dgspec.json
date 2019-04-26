@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/unarix/Documentos/code/a2klab/a2klab.csproj": {}
+  },
+  "projects": {
+    "/home/unarix/Documentos/code/a2klab/a2klab.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/unarix/Documentos/code/a2klab/a2klab.csproj",
+        "projectName": "a2klab",
+        "projectPath": "/home/unarix/Documentos/code/a2klab/a2klab.csproj",
+        "packagesPath": "/home/unarix/.nuget/packages/",
+        "outputPath": "/home/unarix/Documentos/code/a2klab/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/home/unarix/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

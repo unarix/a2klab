@@ -38,7 +38,7 @@ namespace a2klab
                 {
                     Version = "beta",
                     Title = "a2k Labs",
-                    Description = "Microservicios de desarrollo a2k; documentación generada por swagger",
+                    Description = "Microservicios de desarrollo a2k - Framework: .NET Core 2.1 - Documentación: Swagger",
                     // Contact = new Contact
                     // {
                     //     Name = "ntello",

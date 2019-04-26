@@ -4,10 +4,12 @@
         <name>a2klab</name>
     </assembly>
     <members>
-        <member name="T:a2klab.Controllers.ValuesController">
-            Retorna valores!
+        <member name="T:a2klab.Controllers.Z_EjemploController">
+            <summary>
+            Este es un Controller de ejemplo, basarse en este controller para futuros microservicios.
+            </summary>
         </member>
-        <member name="M:a2klab.Controllers.ValuesController.Get">
+        <member name="M:a2klab.Controllers.Z_EjemploController.Get">
             <summary>
             Retorna un valor aleatorio
             </summary>
@@ -15,17 +17,49 @@
             Este servicio pretende servir de ejemplo para crear nuevos microservicios
             </remarks>
         </member>
-        <member name="M:a2klab.Controllers.ValuesController.Get(System.Int32)">
+        <member name="M:a2klab.Controllers.Z_EjemploController.Get(System.Int32)">
+            <summary>
+            Obtiene un valor especifico
+            </summary>
+            <remarks>
+            Este servicio pretende servir de ejemplo para crear nuevos microservicios
+            </remarks>
             GET api/values/5
         </member>
-        <member name="M:a2klab.Controllers.ValuesController.Post(System.String)">
+        <member name="M:a2klab.Controllers.Z_EjemploController.Post(System.String)">
+            <summary>
+            Postea un valor especifico
+            </summary>
+            <remarks>
+            Este servicio pretende servir de ejemplo para crear nuevos microservicios
+            </remarks>
             POST api/values
         </member>
-        <member name="M:a2klab.Controllers.ValuesController.Put(System.Int32,System.String)">
+        <member name="M:a2klab.Controllers.Z_EjemploController.Put(System.Int32,System.String)">
+            <summary>
+            Inserta un valor
+            </summary>
+            <remarks>
+            Este servicio pretende servir de ejemplo para crear nuevos microservicios
+            </remarks>
             PUT api/values/5
         </member>
-        <member name="M:a2klab.Controllers.ValuesController.Delete(System.Int32)">
+        <member name="M:a2klab.Controllers.Z_EjemploController.Delete(System.Int32)">
+            <summary>
+            Elimina un valor especifico
+            </summary>
+            <remarks>
+            Este servicio pretende servir de ejemplo para crear nuevos microservicios
+            </remarks>
             DELETE api/values/5
+        </member>
+        <member name="M:a2klab.Controllers.RodoCopController.RodoCop">
+            <summary>
+            Arma un paquete de despliegue de DB
+            </summary>
+            <remarks>
+            Este servicio se utiliza con un form, que envia los archivos al servidor y luego retorna el ZIP para descargar e incluir en el ticket de base de datos
+            </remarks>
         </member>
     </members>
 </doc>
