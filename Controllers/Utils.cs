@@ -34,22 +34,22 @@ namespace a2klab.Controllers
             {
                 if (sourceImage != null)
                 {
-                try
-                {
-                    using (Image destinationImage = this.CropImage(sourceImage, desdeX, desdeY, cuantoAncho, cuantoAlto, tamañoWidth, tamañoHeight))
+                    try
                     {
-                    Stream outputStream = new MemoryStream();
+                        using (Image destinationImage = this.CropImage(sourceImage, desdeX, desdeY, cuantoAncho, cuantoAlto, tamañoWidth, tamañoHeight))
+                        {
+                        Stream outputStream = new MemoryStream();
 
-                    destinationImage.Save(outputStream, ImageFormat.Jpeg);
-                    outputStream.Seek(0, SeekOrigin.Begin);
-                    return this.File(outputStream, "image/png");
+                        destinationImage.Save(outputStream, ImageFormat.Jpeg);
+                        outputStream.Seek(0, SeekOrigin.Begin);
+                        return this.File(outputStream, "image/png");
+                        }
                     }
-                }
 
-                catch
-                {
-                    // Add error logging here
-                }
+                    catch
+                    {
+                        // 
+                    }
                 }
             }
 
@@ -71,7 +71,7 @@ namespace a2klab.Controllers
 
             catch
             {
-                // Add error logging here
+                // 
             }
 
             return image;
