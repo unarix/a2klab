@@ -65,12 +65,13 @@ namespace a2klab.Controllers
             try
             {
                 System.Diagnostics.Trace.TraceInformation("Logueando paso por: " + retorname);
-                return "Retorno de su mensaje: " + retorname;
             }
             catch(Exception ex)
             {
                 System.Diagnostics.Trace.TraceError(ex.Message);
             }
+            
+            return "Retorno de su mensaje: " + retorname;
         }
 
         private async Task<Image> LoadImageFromUrl(string url)
