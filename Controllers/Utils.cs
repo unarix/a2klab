@@ -62,7 +62,15 @@ namespace a2klab.Controllers
         [HttpGet] 
         public string test(string retorname)
         {
-            return retorname;
+            try
+            {
+                System.Diagnostics.Trace.TraceInformation("Logueando paso por: " + retorname);
+                return "Retorno de su mensaje: " + retorname;
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError(ex.Message);
+            }
         }
 
         private async Task<Image> LoadImageFromUrl(string url)
@@ -77,10 +85,9 @@ namespace a2klab.Controllers
                 using (Bitmap temp = new Bitmap(inputStream))
                 image = new Bitmap(temp);
             }
-
-            catch
+            catch(Exception ex)
             {
-                // 
+                System.Diagnostics.Trace.TraceError(ex.Message);
             }
 
             return image;
@@ -90,13 +97,20 @@ namespace a2klab.Controllers
         {
             Image destinationImage = new Bitmap(destinationWidth, destinationHeight);
 
-            using (Graphics g = Graphics.FromImage(destinationImage))
-                g.DrawImage(
-                sourceImage,
-                new Rectangle(0, 0, destinationWidth, destinationHeight),
-                new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
-                GraphicsUnit.Pixel
-                );
+            try
+            {
+                using (Graphics g = Graphics.FromImage(destinationImage))
+                    g.DrawImage(
+                    sourceImage,
+                    new Rectangle(0, 0, destinationWidth, destinationHeight),
+                    new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+                    GraphicsUnit.Pixel
+                    );   
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError(ex.Message);
+            }
 
             return destinationImage;
         }
