@@ -21,7 +21,7 @@ namespace a2klab.Controllers
         /// Recorta una imagen
         /// </summary>
         /// <remarks>
-        /// Recorta una imagen hosteada en otro equipo /n
+        /// Recorta una imagen hosteada en otro equipo
         /// imagen_Url es la url de la imagen que se quiere cortar
         /// desdeX y desdeY es desde donde se quiere cortar en pixeles.
         /// cuantoAncho y cuantoAlto es la cantidad de pixeles que se van a cortar de la posicion anterior.
@@ -59,12 +59,10 @@ namespace a2klab.Controllers
         /// <summary>
         /// Testea que el controlador este activo
         /// </summary>
-        /// <remarks>
-        /// retorna el mismo valor enviado
-        /// </remarks>
-        public string test(string x)
+        [HttpGet] 
+        public string test(string retorname)
         {
-            return x;
+            return retorname;
         }
 
         private async Task<Image> LoadImageFromUrl(string url)
