@@ -56,6 +56,17 @@ namespace a2klab.Controllers
             return this.NotFound();
         }
 
+        /// <summary>
+        /// Testea que el controlador este activo
+        /// </summary>
+        /// <remarks>
+        /// retorna el mismo valor enviado
+        /// </remarks>
+        public string test(string x)
+        {
+            return x;
+        }
+
         private async Task<Image> LoadImageFromUrl(string url)
         {
             Image image = null;
