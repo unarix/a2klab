@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "31bd07040ae1205f10e846c38fb1f17e0b58f0ff"
+    "signature": "62d1453c827862a04578ff1c9ada82455cc2c539"
   },
   "compilationOptions": {
     "defines": [
@@ -24,16 +24,45 @@
     ".NETCoreApp,Version=v2.1": {
       "a2klab/1.0.0": {
         "dependencies": {
+          "CoreCompat.System.Drawing": "1.0.0-beta006",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
           "Microsoft.NETCore.App": "2.1.0",
-          "Swashbuckle.AspNetCore": "4.0.1"
+          "Swashbuckle.AspNetCore": "4.0.1",
+          "runtime.linux-x64.CoreCompat.System.Drawing": "1.0.0-beta009",
+          "runtime.osx.10.10-x64.CoreCompat.System.Drawing": "1.0.1-beta004"
         },
         "runtime": {
           "a2klab.dll": {}
         },
         "compile": {
           "a2klab.dll": {}
+        }
+      },
+      "CoreCompat.System.Drawing/1.0.0-beta006": {
+        "dependencies": {
+          "Microsoft.Win32.Primitives": "4.0.1",
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel.TypeConverter": "4.1.0",
+          "System.Drawing.Primitives": "4.0.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Text.Encoding.Extensions": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/CoreCompat.System.Drawing.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.3/CoreCompat.System.Drawing.dll": {}
         }
       },
       "Microsoft.AspNetCore.Razor.Design/2.1.2": {},
@@ -203,9 +232,156 @@
       },
       "Microsoft.NETCore.Platforms/2.1.0": {},
       "Microsoft.NETCore.Targets/2.1.0": {},
+      "Microsoft.Win32.Primitives/4.0.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.1.0",
+          "Microsoft.NETCore.Targets": "2.1.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.1.0"
+        }
+      },
+      "runtime.linux-x64.CoreCompat.System.Drawing/1.0.0-beta009": {
+        "dependencies": {
+          "System.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.5/runtime.linux-x64.CoreCompat.System.Drawing.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libcairo.so.2": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libexif.so.12": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libfontconfig.so.1": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libfreetype.so.6": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libgdiplus.so": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libgif.so.7": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libglib-2.0.so.0": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libjbig.so.0": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libjpeg.so.8": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libpixman-1.so.0": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libpng12.so.0": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libtiff.so.5": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.5/runtime.linux-x64.CoreCompat.System.Drawing.dll": {}
+        }
+      },
+      "runtime.osx.10.10-x64.CoreCompat.System.Drawing/1.0.1-beta004": {
+        "runtimeTargets": {
+          "runtimes/osx-x64/native/libcairo.2.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libfontconfig.1.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libfreetype.6.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libgdiplus.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libgif.4.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libglib-2.0.0.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libintl.8.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libjpeg.8.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libpcre.1.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libpixman-1.0.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libpng16.16.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libtiff.5.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
         }
       },
       "Swashbuckle.AspNetCore/4.0.1": {
@@ -271,6 +447,43 @@
         },
         "compile": {
           "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
+        }
+      },
+      "System.ComponentModel/4.0.1": {
+        "dependencies": {
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.ComponentModel.Primitives/4.1.0": {
+        "dependencies": {
+          "System.ComponentModel": "4.0.1",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.ComponentModel.TypeConverter/4.1.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel": "4.0.1",
+          "System.ComponentModel.Primitives": "4.1.0",
+          "System.Globalization": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Extensions": "4.3.0",
+          "System.Reflection.Primitives": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0"
+        }
+      },
+      "System.Drawing.Primitives/4.0.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0"
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -3221,6 +3434,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "CoreCompat.System.Drawing/1.0.0-beta006": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KOBeVy8FHx9zkXrIZAM8OdXPrimROmvfB02fOegrYIelNN/zWhsOwzONgD7gw7wOTJgAFfdwpme5CiMraJj47Q==",
+      "path": "corecompat.system.drawing/1.0.0-beta006",
+      "hashPath": "corecompat.system.drawing.1.0.0-beta006.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Razor.Design/2.1.2": {
       "type": "package",
       "serviceable": true,
@@ -3270,12 +3490,33 @@
       "path": "microsoft.netcore.targets/2.1.0",
       "hashPath": "microsoft.netcore.targets.2.1.0.nupkg.sha512"
     },
+    "Microsoft.Win32.Primitives/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fQnBHO9DgcmkC9dYSJoBqo6sH1VJwJprUHh8F3hbcRlxiQiBUuTntdk8tUwV490OqC2kQUrinGwZyQHTieuXRA==",
+      "path": "microsoft.win32.primitives/4.0.1",
+      "hashPath": "microsoft.win32.primitives.4.0.1.nupkg.sha512"
+    },
     "NETStandard.Library/2.0.3": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "runtime.linux-x64.CoreCompat.System.Drawing/1.0.0-beta009": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6t5B23rZDy6xXWKWZ34Tj2mVeq+CCW4nFZmBCcC1U4lbdhWu2KCQi6Mr1fPJ0F8LErfT7ict8yL0MXL/xBvswQ==",
+      "path": "runtime.linux-x64.corecompat.system.drawing/1.0.0-beta009",
+      "hashPath": "runtime.linux-x64.corecompat.system.drawing.1.0.0-beta009.nupkg.sha512"
+    },
+    "runtime.osx.10.10-x64.CoreCompat.System.Drawing/1.0.1-beta004": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vveZKAKegavlE6OshTH/3YJbi1vUfF+6nGGYd66iUAmUtu7+z8yRc0Q/csemk2+Rgymzxk6hFhEkMPPmihSZOw==",
+      "path": "runtime.osx.10.10-x64.corecompat.system.drawing/1.0.1-beta004",
+      "hashPath": "runtime.osx.10.10-x64.corecompat.system.drawing.1.0.1-beta004.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/4.0.1": {
       "type": "package",
@@ -3304,6 +3545,34 @@
       "sha512": "sha512-d2U7NyV0e4UhyCzAVK9QHm0iz2QoVPUa9XzJ/Gr0rn/jBZWFpVLvigKv0vxFzO2E793sY605+4h885gvCdKSxQ==",
       "path": "swashbuckle.aspnetcore.swaggerui/4.0.1",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.4.0.1.nupkg.sha512"
+    },
+    "System.ComponentModel/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oBZFnm7seFiVfugsIyOvQCWobNZs7FzqDV/B7tx20Ep/l3UUFCPDkdTnCNaJZTU27zjeODmy2C/cP60u3D4c9w==",
+      "path": "system.componentmodel/4.0.1",
+      "hashPath": "system.componentmodel.4.0.1.nupkg.sha512"
+    },
+    "System.ComponentModel.Primitives/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sc/7eVCdxPrp3ljpgTKVaQGUXiW05phNWvtv/m2kocXqrUQvTVWKou1Edas2aDjTThLPZOxPYIGNb/HN0QjURg==",
+      "path": "system.componentmodel.primitives/4.1.0",
+      "hashPath": "system.componentmodel.primitives.4.1.0.nupkg.sha512"
+    },
+    "System.ComponentModel.TypeConverter/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MnDAlaeJZy9pdB5ZdOlwdxfpI+LJQ6e0hmH7d2+y2LkiD8DRJynyDYl4Xxf3fWFm7SbEwBZh4elcfzONQLOoQw==",
+      "path": "system.componentmodel.typeconverter/4.1.0",
+      "hashPath": "system.componentmodel.typeconverter.4.1.0.nupkg.sha512"
+    },
+    "System.Drawing.Primitives/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9lVRG1voBwzLGZkf1XFJrobdZDZ5ZHMU4FVTbXAbzehpN90yYgkUeo9GoEYdvkt/EXaaHZJAeuffXP4JBbY+Ig==",
+      "path": "system.drawing.primitives/4.0.0",
+      "hashPath": "system.drawing.primitives.4.0.0.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",
