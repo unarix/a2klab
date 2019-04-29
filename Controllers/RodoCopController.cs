@@ -138,20 +138,25 @@ namespace a2klab.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> delete()
         {
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            string delPathUpload = Path.Combine(webRootPath, "upload");
+            string delPathDeploy = Path.Combine(webRootPath, "deploy");
+
             try
             {
-            string webRootPath = _hostingEnvironment.WebRootPath;
-            string delPath = Path.Combine(webRootPath, "upload");
-            
-            var dir = new DirectoryInfo(delPath);
-            dir.Delete(true);
+                var dir = new DirectoryInfo(delPathUpload);
+                dir.Delete(true);
+
+                dir = new DirectoryInfo(delPathDeploy);
+                dir.Delete(true);
+
             }
             catch(Exception ex)
             {
                 return new string[] { "Resultado", ex.Message };
             }
 
-            return new string[] { "Resultado", "Eliminado" };
+            return new string[] { "Resultado", "Eliminado " + delPathUpload + " / " + delPathDeploy};
         }
 
     }
