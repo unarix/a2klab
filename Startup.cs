@@ -98,7 +98,7 @@ namespace a2klab
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(builder => builder.WithOrigins("https://localhost:5001","https://localhost:5002","https://localhost:5003","https://localhost:5004"));
+            app.UseCors(builder => builder.WithOrigins("https://rodocop.azurewebsites.net", "https://localhost:5001","https://localhost:5002","https://localhost:5003","https://localhost:5004"));
             app.UseMvc();
         }
     }
