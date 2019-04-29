@@ -123,7 +123,7 @@ namespace a2klab.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest("Eeeee amigo! No existe es enumero de ticket...");
+                return BadRequest("Eeeee amigo! No existe ese numero de ticket... que onda?");
             }
 
             return returnPath;
