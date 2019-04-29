@@ -53,12 +53,29 @@
             </remarks>
             DELETE api/values/5
         </member>
-        <member name="M:a2klab.Controllers.RodoCopController.RodoCop">
+        <member name="M:a2klab.Controllers.RodoCopController.RodoCopQry">
             <summary>
             Este servicio nos facilita realizar las acciones burocraticas impuestas por RodoCop, el policia mas malvado de database city.
             </summary>
             <remarks>
             Esto se utiliza con un form en la capa de presentación, que envia los archivos al servidor y luego retorna el ZIP para descargar e incluir en el ticket de base de datos.
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.RodoCopController.Get(System.Int32)">
+            <summary>
+            Genera el deploy del ticket enviado
+            </summary>
+            <remarks>
+            Este servicio toma el directorio generado por el ticket, genera el TXT de pasaje y convierte todo a zip; retorna el rirectorio de descarga
+            </remarks>
+            GET api/rodocop/5
+        </member>
+        <member name="M:a2klab.Controllers.RodoCopController.delete">
+            <summary>
+            Elimina todos los directorios creados 
+            </summary>
+            <remarks>
+            Simplemente la ejecucion elimina todos los path del server; se debe utilizar solo para depurar.
             </remarks>
         </member>
         <member name="M:a2klab.Controllers.Utils.Index(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">

@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Web;
+using a2klab.Models;
 
 namespace a2klab.Controllers
 {               
@@ -38,11 +39,11 @@ namespace a2klab.Controllers
                     {
                         using (Image destinationImage = this.CropImage(sourceImage, desdeX, desdeY, cuantoAncho, cuantoAlto, tamañoWidth, tamañoHeight))
                         {
-                        Stream outputStream = new MemoryStream();
+                            Stream outputStream = new MemoryStream();
 
-                        destinationImage.Save(outputStream, ImageFormat.Jpeg);
-                        outputStream.Seek(0, SeekOrigin.Begin);
-                        return this.File(outputStream, "image/png");
+                            destinationImage.Save(outputStream, ImageFormat.Jpeg);
+                            outputStream.Seek(0, SeekOrigin.Begin);
+                            return this.File(outputStream, "image/png");
                         }
                     }
 
@@ -64,11 +65,11 @@ namespace a2klab.Controllers
         {
             try
             {
-                System.Diagnostics.Trace.TraceInformation("Logueando paso por: " + retorname);
+                System.Diagnostics.Trace.WriteLine("Logueando paso por: " + retorname);
             }
             catch(Exception ex)
             {
-                System.Diagnostics.Trace.TraceError(ex.Message);
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
             
             return "Retorno de su mensaje: " + retorname;
@@ -88,7 +89,7 @@ namespace a2klab.Controllers
             }
             catch(Exception ex)
             {
-                System.Diagnostics.Trace.TraceError(ex.Message);
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
 
             return image;
@@ -110,7 +111,7 @@ namespace a2klab.Controllers
             }
             catch(Exception ex)
             {
-                System.Diagnostics.Trace.TraceError(ex.Message);
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
 
             return destinationImage;

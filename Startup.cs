@@ -28,6 +28,17 @@ namespace a2klab
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddCors(options =>
+            // {
+            //     options.AddDefaultPolicy(
+            //         builder =>
+            //         {
+            //             builder.WithOrigins("https://localhost:5003",
+            //                                 "hhttps://localhost:5002");
+            //         });
+            // });
+
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -87,6 +98,7 @@ namespace a2klab
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(builder => builder.WithOrigins("https://localhost:5001","https://localhost:5002","https://localhost:5003","https://localhost:5004"));
             app.UseMvc();
         }
     }
