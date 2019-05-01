@@ -48,8 +48,8 @@ namespace a2klab
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "beta",
-                    Title = "a2k Labs",
-                    Description = "Microservicios de desarrollo a2k - Framework: .NET Core 2.1 - Documentación: Swagger",
+                    Title = "a2klab",
+                    Description = "Microservicios de desarrollo: Kestrel, Core 2.1, Swagger.",
                     // Contact = new Contact
                     // {
                     //     Name = "ntello",

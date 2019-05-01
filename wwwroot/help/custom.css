@@ -1,10 +1,12 @@
 .swagger-ui .topbar {
-    background-color: #000;
-    border-bottom: 3px solid #666;
+    background-color: #555;
+    border-bottom: 3px solid #444;
 }
 
 .swagger-ui .topbar .link{
-    content:url("http://www.aa2000.com.ar/img/logo_aa2000.png");
+    /*content:url("http://www.aa2000.com.ar/img/logo_aa2000.png");*/
+    content:url("http://sesagogroup.com//wp-content/uploads/2016/10/lab-icon.png");
+    width: 30px;
 }
 
 .swagger-ui .topbar .select-label span{
@@ -13,4 +15,38 @@
 
 .swagger-ui .info .title{
     font-size: 3ch
+}
+
+.scheme-container
+{
+    padding: 0px 0 !important;
+}
+
+body {
+    margin: 0;
+    background: #eceaea;
+}
+
+.info
+{
+    margin: 0px !important;
+    margin-top: 50px !important;
+}
+
+.swagger-ui .topbar a
+{
+    font-size: 1.5em;
+    font-weight: 700;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: none;
+    max-width: 300px;
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #fff;
+}
+
+.swagger-ui .opblock-tag
+{
+    font-size: 15px;
 }

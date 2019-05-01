@@ -35,7 +35,7 @@ namespace a2klab.Controllers
         }
 
         /// <summary>
-        /// Este servicio nos facilita realizar las acciones burocraticas impuestas por RodoCop, el policia mas malvado de database city.
+        /// El servicio carga los archivos enviados por el presentador en su respectiva carpeta
         /// </summary>
         /// <remarks>
         /// Esto se utiliza con un form en la capa de presentación, que envia los archivos al servidor y luego retorna el ZIP para descargar e incluir en el ticket de base de datos.
