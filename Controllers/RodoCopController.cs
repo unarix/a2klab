@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.IO.Compression;
 using Microsoft.AspNetCore.Http;
 using a2klab.Models;
+using System.Threading;
 
 
 namespace a2klab.Controllers
@@ -113,9 +114,72 @@ namespace a2klab.Controllers
                     var dir = new DirectoryInfo(zipPath);
                     dir.Delete(true);
                 }
-                
-                // Creo el path para el deploy
+
+                // Creo el path para el deploy donde voy a guardar el zip
                 Directory.CreateDirectory(zipPath);
+
+                // Creo el script que ejecuta los PL dentro del directorio padre
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(startPath, "_deploy_ " + idTicket + ".sql")))
+                {
+                        outputFile.WriteLine("set echo on");
+                        outputFile.WriteLine("set define on");
+                        outputFile.WriteLine("accept sdm prompt \"Por favor ingrese el número de solicitud de SDM: \"");
+                        outputFile.WriteLine("-- Obtiene fecha");
+                        outputFile.WriteLine("column dcol new_value mydate noprint");
+                        outputFile.WriteLine("select '_'||to_char(sysdate,'YYYYMMDD_HH24MI') dcol from dual;");
+                        outputFile.WriteLine("spool _deploy_sdm_&&sdm.&mydate");
+                        outputFile.WriteLine("set define off");
+                        outputFile.WriteLine("-- Aquí debe enumerar los scripts.sql que desea desplegar sobre la BD.");
+                        
+                        var files = Directory.GetFiles(startPath, "*.sql").OrderBy(f => f);;
+
+                        foreach(string sql in files)
+                            if(!sql.Contains("deploy"))
+                                outputFile.WriteLine("@\".\\" + Path.GetFileName(sql) + "\"");
+                        
+                        outputFile.WriteLine("spool off");
+                }
+
+                // Me fijo en el directorio padre si tiene la carpeta rollback creada:
+                string rollbackPath = startPath + "/rollback";
+
+                if(Directory.Exists(rollbackPath))
+                {
+                    var files = Directory.GetFiles(rollbackPath, "*.sql").OrderBy(f => f);
+
+                    if (files.Count() > 0)
+                    {
+                        // Creo el script que ejecuta los PL
+                        using (StreamWriter outputFile = new StreamWriter(Path.Combine(rollbackPath, "_rollback_ " + idTicket + ".sql")))
+                        {
+                            outputFile.WriteLine("set echo on");
+                            outputFile.WriteLine("set define on");
+                            outputFile.WriteLine("accept sdm prompt \"Por favor ingrese el número de solicitud de SDM para hacer el rollback: \"");
+                            outputFile.WriteLine("-- Obtiene fecha");
+                            outputFile.WriteLine("column dcol new_value mydate noprint");
+                            outputFile.WriteLine("select '_'||to_char(sysdate,'YYYYMMDD_HH24MI') dcol from dual;");
+                            outputFile.WriteLine("spool _rollback_sdm_&&sdm.&mydate");
+                            outputFile.WriteLine("set define off");
+                            outputFile.WriteLine("-- Aquí debe enumerar los scripts.sql que desea realizar el rollback de BD.");
+                            
+                            files = Directory.GetFiles(rollbackPath, "*.sql").OrderBy(f => f);
+
+                            foreach(string sql in files)
+                                if(!sql.Contains("rollback"))
+                                    outputFile.WriteLine("@\".\\" + Path.GetFileName(sql) + "\"");
+                            
+                            outputFile.WriteLine("spool off");
+                        }
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(rollbackPath);
+                    while(!Directory.Exists(rollbackPath))
+                    {
+                        Thread.Sleep(2000);
+                    }
+                }
 
                 ZipFile.CreateFromDirectory(startPath, zipFilex);
 
@@ -153,10 +217,10 @@ namespace a2klab.Controllers
             }
             catch(Exception ex)
             {
-                return new string[] { "Resultado", ex.Message };
+                return BadRequest("Los directorios ya estan limpios: " + ex.Message);
             }
 
-            return new string[] { "Resultado", "Eliminado " + delPathUpload + " / " + delPathDeploy};
+            return new string[] { "OK", "Eliminado " + delPathUpload + " / " + delPathDeploy};
         }
 
     }
