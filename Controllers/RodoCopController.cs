@@ -135,7 +135,7 @@ namespace a2klab.Controllers
                         var files = Directory.GetFiles(startPath, "*.sql").OrderBy(f => f);;
 
                         foreach(string sql in files)
-                            if(!sql.Contains("deploy"))
+                            if(!sql.Contains("_deploy_"))
                                 outputFile.WriteLine("@\".\\" + Path.GetFileName(sql) + "\"");
                         
                         outputFile.WriteLine("spool off");
@@ -166,7 +166,7 @@ namespace a2klab.Controllers
                             files = Directory.GetFiles(rollbackPath, "*.sql").OrderBy(f => f);
 
                             foreach(string sql in files)
-                                if(!sql.Contains("rollback"))
+                                if(!sql.Contains("_rollback_"))
                                     outputFile.WriteLine("@\".\\" + Path.GetFileName(sql) + "\"");
                             
                             outputFile.WriteLine("spool off");
