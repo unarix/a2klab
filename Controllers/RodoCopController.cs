@@ -60,6 +60,7 @@ namespace a2klab.Controllers
                     if (!Directory.Exists(newPath))
                     {
                         Directory.CreateDirectory(newPath);
+                        if (!newPath.Contains("rollback")) Directory.CreateDirectory(newPath + "/rollback");
                     }
                     if (file.Length > 0)
                     {
