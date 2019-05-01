@@ -49,7 +49,7 @@ namespace a2klab
                 {
                     Version = "beta",
                     Title = "a2klab",
-                    Description = "Microservicios de desarrollo: Kestrel, Core 2.1, Swagger.",
+                    Description = "Microservicios de desarrollo: Kestrel, Core 2.1, Swagger, Source: <a href='https://github.com/unarix/a2klab'>Github</a>",
                     // Contact = new Contact
                     // {
                     //     Name = "ntello",
