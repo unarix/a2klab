@@ -144,38 +144,33 @@ namespace a2klab.Controllers
                 // Me fijo en el directorio padre si tiene la carpeta rollback creada:
                 string rollbackPath = startPath + "/rollback";
 
-                if(Directory.Exists(rollbackPath))
-                {
-                    // Creo el script que ejecuta los PL
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(rollbackPath, "_rollback_ " + idTicket + ".sql")))
-                    {
-                        outputFile.WriteLine("set echo on");
-                        outputFile.WriteLine("set define on");
-                        outputFile.WriteLine("accept sdm prompt \"Por favor ingrese el número de solicitud de SDM para hacer el rollback: \"");
-                        outputFile.WriteLine("-- Obtiene fecha");
-                        outputFile.WriteLine("column dcol new_value mydate noprint");
-                        outputFile.WriteLine("select '_'||to_char(sysdate,'YYYYMMDD_HH24MI') dcol from dual;");
-                        outputFile.WriteLine("spool _rollback_sdm_&&sdm.&mydate");
-                        outputFile.WriteLine("set define off");
-                        outputFile.WriteLine("-- Aquí debe enumerar los scripts.sql que desea realizar el rollback de BD.");
-                        
-                        var files = Directory.GetFiles(rollbackPath, "*.sql").OrderBy(f => f);
-
-                        foreach(string sql in files)
-                            if(!sql.Contains("_rollback_"))
-                                outputFile.WriteLine("@\".\\" + Path.GetFileName(sql) + "\"");
-                        
-                        outputFile.WriteLine("spool off");
-                    }
-                }
-                else
+                if(!Directory.Exists(rollbackPath))
                 {
                     Directory.CreateDirectory(rollbackPath);
-                    while(!Directory.Exists(rollbackPath))
-                    {
-                        Thread.Sleep(2000);
-                    }
                 }
+
+                // Creo el script que ejecuta los PL
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(rollbackPath, "_rollback_ " + idTicket + ".sql")))
+                {
+                    outputFile.WriteLine("set echo on");
+                    outputFile.WriteLine("set define on");
+                    outputFile.WriteLine("accept sdm prompt \"Por favor ingrese el número de solicitud de SDM para hacer el rollback: \"");
+                    outputFile.WriteLine("-- Obtiene fecha");
+                    outputFile.WriteLine("column dcol new_value mydate noprint");
+                    outputFile.WriteLine("select '_'||to_char(sysdate,'YYYYMMDD_HH24MI') dcol from dual;");
+                    outputFile.WriteLine("spool _rollback_sdm_&&sdm.&mydate");
+                    outputFile.WriteLine("set define off");
+                    outputFile.WriteLine("-- Aquí debe enumerar los scripts.sql que desea realizar el rollback de BD.");
+                    
+                    var files = Directory.GetFiles(rollbackPath, "*.sql").OrderBy(f => f);
+
+                    foreach(string sql in files)
+                        if(!sql.Contains("_rollback_"))
+                            outputFile.WriteLine("@\".\\" + Path.GetFileName(sql) + "\"");
+                    
+                    outputFile.WriteLine("spool off");
+                }
+
 
                 ZipFile.CreateFromDirectory(startPath, zipFilex);
 

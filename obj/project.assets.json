@@ -12394,11 +12394,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/unarix/Documentos/code/a2klab/a2klab.csproj",
+      "projectUniqueName": "/home/unarix/Documentos/code/a2klab/a2klab/a2klab.csproj",
       "projectName": "a2klab",
-      "projectPath": "/home/unarix/Documentos/code/a2klab/a2klab.csproj",
+      "projectPath": "/home/unarix/Documentos/code/a2klab/a2klab/a2klab.csproj",
       "packagesPath": "/home/unarix/.nuget/packages/",
-      "outputPath": "/home/unarix/Documentos/code/a2klab/obj/",
+      "outputPath": "/home/unarix/Documentos/code/a2klab/a2klab/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
