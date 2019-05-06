@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace a2klab.Controllers
 {
@@ -19,6 +20,7 @@ namespace a2klab.Controllers
         /// <remarks>
         /// Este servicio pretende servir de ejemplo para crear nuevos microservicios
         /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
@@ -32,6 +34,7 @@ namespace a2klab.Controllers
         /// Este servicio pretende servir de ejemplo para crear nuevos microservicios
         /// </remarks>
         /// GET api/values/5
+        [EnableCors("SiteCorsPolicy")]
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
@@ -45,6 +48,7 @@ namespace a2klab.Controllers
         /// Este servicio pretende servir de ejemplo para crear nuevos microservicios
         /// </remarks>
         /// POST api/values
+        [EnableCors("SiteCorsPolicy")]
         [HttpPost]
         public void Post([FromBody] string value)
         {
@@ -57,6 +61,7 @@ namespace a2klab.Controllers
         /// Este servicio pretende servir de ejemplo para crear nuevos microservicios
         /// </remarks>
         /// PUT api/values/5
+        [EnableCors("SiteCorsPolicy")]
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
@@ -69,6 +74,7 @@ namespace a2klab.Controllers
         /// Este servicio pretende servir de ejemplo para crear nuevos microservicios
         /// </remarks>
         /// DELETE api/values/5
+        [EnableCors("SiteCorsPolicy")]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

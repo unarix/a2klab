@@ -18,7 +18,7 @@ using System.IO.Compression;
 using Microsoft.AspNetCore.Http;
 using a2klab.Models;
 using System.Threading;
-
+using Microsoft.AspNetCore.Cors;
 
 namespace a2klab.Controllers
 {
@@ -40,6 +40,7 @@ namespace a2klab.Controllers
         /// <remarks>
         /// Esto se utiliza con un form en la capa de presentación, que envia los archivos al servidor y luego retorna el ZIP para descargar e incluir en el ticket de base de datos.
         /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
         [HttpPost, DisableRequestSizeLimit]
         public IActionResult RodoCopQry()   
         {
@@ -94,6 +95,7 @@ namespace a2klab.Controllers
         /// Este servicio toma el directorio generado por el ticket, genera el TXT de pasaje y convierte todo a zip; retorna el rirectorio de descarga
         /// </remarks>
         /// GET api/rodocop/5
+        [EnableCors("SiteCorsPolicy")]
         [HttpGet("{idTicket}")]
         public ActionResult<string> Get(int idTicket)
         {
@@ -190,6 +192,7 @@ namespace a2klab.Controllers
         /// <remarks>
         /// Simplemente la ejecucion elimina todos los path del server; se debe utilizar solo para depurar.
         /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
         [HttpGet]
         public ActionResult<IEnumerable<string>> delete()
         {

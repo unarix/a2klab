@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace a2klab
 {
@@ -28,17 +29,7 @@ namespace a2klab
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddCors(options =>
-            // {
-            //     options.AddDefaultPolicy(
-            //         builder =>
-            //         {
-            //             builder.WithOrigins("https://localhost:5003",
-            //                                 "hhttps://localhost:5002");
-            //         });
-            // });
 
-            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -63,6 +54,25 @@ namespace a2klab
 
             });
 
+            // ********************
+            // Setup CORS
+            // ********************
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin();
+            // corsBuilder.WithOrigins("https://rodocop.azurewebsites.net", 
+            //                                 "https://localhost:5001",
+            //                                 "https://localhost:5002",
+            //                                 "https://localhost:5003",
+            //                                 "https://localhost:5004"
+            // ); // Para una URL especifica. no agregar / al finals!
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
+            });
             
         }
 
@@ -98,8 +108,12 @@ namespace a2klab
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(builder => builder.WithOrigins("https://rodocop.azurewebsites.net", "https://localhost:5001","https://localhost:5002","https://localhost:5003","https://localhost:5004"));
             app.UseMvc();
+            
+            // ********************
+            // USAR CORS
+            // ********************
+            app.UseCors("SiteCorsPolicy");
         }
     }
 }

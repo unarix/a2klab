@@ -78,6 +78,22 @@
             Simplemente la ejecucion elimina todos los path del server; se debe utilizar solo para depurar.
             </remarks>
         </member>
+        <member name="M:a2klab.Controllers.SnapController.Index">
+            <summary>
+            Retorna el ultimo snap
+            </summary>
+            <remarks>
+            De un base64 retorna un jpeg
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.SnapController.snapFile(a2klab.Controllers.UploadSnap)">
+            <summary>
+            Carga un snap en el directorio snaps
+            </summary>
+            <remarks>
+            Guarda el base64 como txt
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.Utils.Index(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Recorta una imagen
