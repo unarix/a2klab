@@ -94,6 +94,22 @@
             Guarda el base64 como txt
             </remarks>
         </member>
+        <member name="M:a2klab.Controllers.spotifyController.getToken(System.String)">
+            <summary>
+            Retorna el token de spotify
+            </summary>
+            <remarks>
+            Aplica 0Auth
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.spotifyController.postToken(System.String)">
+            <summary>
+            Inserta el token de spotify
+            </summary>
+            <remarks>
+            Aplica 0Auth
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.Utils.Index(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Recorta una imagen

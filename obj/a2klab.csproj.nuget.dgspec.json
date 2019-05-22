@@ -59,6 +59,10 @@
               "version": "[2.1.0, )",
               "autoReferenced": true
             },
+            "SpotifyWebApi-Core": {
+              "target": "Package",
+              "version": "[0.0.10, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[4.0.1, )"
