@@ -29,34 +29,55 @@ namespace a2klab.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class spotifyController : Controller
+    public class SpotifyController : Controller
     {
         private IMemoryCache memoryCache;    
 
 
-        public spotifyController(IMemoryCache memoryCache)    
+        public SpotifyController(IMemoryCache memoryCache)    
         {    
             this.memoryCache = memoryCache;    
         }  
 
         /// <summary>
+        /// Obtiene un access token
+        /// </summary>
+        /// <remarks>
+        /// Obtiene un access token con validez en cache por 3600 segundos, si expiro lo vuelve a obtener.
+        /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
+        [HttpGet("{secret}")]
+        public string getAccessToken(string secret)
+        {
+            // Si no existe en cache renueva el token
+            string accessToken;  
+            bool isExist = memoryCache.TryGetValue("accessToken", out accessToken);  
+            if (!isExist)  
+            {                 
+                var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+
+                var token = ClientCredentials.GetToken(new AuthParameters
+                {
+                    ClientId = "318fa35ac32b4b92b19611cc41709790",
+                    ClientSecret = secret, // "3bf05f92fd2a4e1f858c60dc6f798ea2",
+                    Scopes = Scope.PlaylistModifyPrivate,
+                });
+
+                memoryCache.Set("accessToken", accessToken, cacheEntryOptions);  
+            }  
+            return accessToken;  
+        }
+
+        /// <summary>
         /// Retorna el token de spotify
         /// </summary>
         /// <remarks>
-        /// Aplica 0Auth
+        /// Obtiene el token de autorización
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpGet]
-        public string getToken(string keyframe)
+        public string getToken()
         {
-            // var token = ClientCredentials.GetToken(new AuthParameters
-            // {
-            //     ClientId = "318fa35ac32b4b92b19611cc41709790",
-            //     ClientSecret = "3bf05f92fd2a4e1f858c60dc6f798ea2",
-            //     Scopes = Scope.PlaylistModifyPrivate,
-            // });
-
-            // return token.ToString();
             string cacheToken;  
             bool isExist = memoryCache.TryGetValue("token", out cacheToken);  
             if(isExist)
@@ -65,26 +86,16 @@ namespace a2klab.Controllers
                 return "Sin Token";
         }
 
-                /// <summary>
+        /// <summary>
         /// Inserta el token de spotify
         /// </summary>
         /// <remarks>
-        /// Aplica 0Auth
+        /// Setea el token de autorización
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost]
         public string postToken(string token)
         {
-            //DateTime currentTime;  
-            //bool isExist = memoryCache.TryGetValue("CacheKey", out currentTime);  
-            //if (!isExist)  
-            //{                 
-            //     var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
-        
-            //     memoryCache.Set("CacheTime", currentTime, cacheEntryOptions);  
-            // }  
-            // return currentTime;  
-
             var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
             memoryCache.Set("token", token, cacheEntryOptions);  
             return "Token seteado OK";  
