@@ -50,22 +50,26 @@ namespace a2klab.Controllers
         public string getAccessToken(string secret)
         {
             // Si no existe en cache renueva el token
-            string accessToken;  
+            string accessToken = "";  
             bool isExist = memoryCache.TryGetValue("accessToken", out accessToken);  
             if (!isExist)  
             {                 
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                if(secret == null)
+                    secret = "3bf05f92fd2a4e1f858c60dc6f798ea2";
 
                 var token = ClientCredentials.GetToken(new AuthParameters
                 {
                     ClientId = "318fa35ac32b4b92b19611cc41709790",
-                    ClientSecret = secret, // "3bf05f92fd2a4e1f858c60dc6f798ea2",
+                    ClientSecret = secret,
                     Scopes = Scope.PlaylistModifyPrivate,
                 });
 
+                accessToken = token.ToString();
+
                 memoryCache.Set("accessToken", accessToken, cacheEntryOptions);  
             }  
-            return accessToken;  
+            return accessToken.Replace("AccessToken: ","").Replace(", RefreshToken: ","");  
         }
 
         /// <summary>

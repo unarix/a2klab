@@ -59,6 +59,10 @@
               "version": "[2.1.0, )",
               "autoReferenced": true
             },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[106.11.4, )"
+            },
             "SpotifyWebApi-Core": {
               "target": "Package",
               "version": "[0.0.10, )"
