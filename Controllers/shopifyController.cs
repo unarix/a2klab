@@ -47,8 +47,8 @@ namespace a2klab.Controllers
             Root products;
             bool isExist = memoryCache.TryGetValue("products", out products);  
             // Si no existe en cache renueva el token
-            //if (!isExist)  
-            //{                 
+            if (!isExist)  
+            {                 
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
 
                 var client = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/products.json?fields=id,images,title,handle,variants");
@@ -66,7 +66,7 @@ namespace a2klab.Controllers
                 }
 
                 memoryCache.Set("products", products, cacheEntryOptions);  
-            //}  
+            }  
             if(filter!=null)
             {
                 List<Product> list = products.products.Where(x => x.title.ToUpper().Contains(filter.ToUpper())).ToList();
