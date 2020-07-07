@@ -43,15 +43,16 @@ namespace a2klab.Controllers
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost("{filter}")]
-        public List<Action> ResponseBot(string filter)
+        public definitions ResponseBot(string filter)
         {
-            twilio Twilio = new twilio();
+            definitions twilio = new definitions();
             Action a = new Action();
             a.say = "Que producto estas buscando?";
-            Twilio.actions = new List<Action>();
-            Twilio.actions.Add(a);
+            //a.collect = "A.PROD";
+            twilio.actions = new List<Action>();
+            twilio.actions.Add(a);
 
-            return Twilio.actions;
+            return twilio;
 
             //"{ "actions": [ { "say": "Ok!" }, { "collect": { "name": "deliver_roomitems", "questions": [ { "question": "Cual quieres??", "name": "item", "type": "Custom.ROOMITEMS" }, { "question": "Cuantos quieres?", "name": "quantity", "type": "Twilio.NUMBER" } ], "on_complete": { "redirect": { "method": "POST", "uri": "task://complete_collect_roomitems" } } } } ] }"
         }
@@ -192,7 +193,7 @@ namespace a2klab.Controllers
 
     }
 
-    public class twilio    {
+    public class definitions    {
         public List<Action> actions { get; set; } 
 
     }
