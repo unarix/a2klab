@@ -46,7 +46,7 @@ namespace a2klab.Controllers
         {
             Root products;
             bool isExist = memoryCache.TryGetValue("products", out products);  
-            // Si no existe en cache renueva el token
+            // Si no existe en cache renueva la lista de productos
             if (!isExist)  
             {                 
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
