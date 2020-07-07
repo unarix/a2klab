@@ -189,7 +189,7 @@ namespace a2klab.Controllers
 
     public class Action    {
         public string say { get; set; } 
-        public Collect collect { get; set; } 
+        //public Collect collect { get; set; } 
 
     }
 
