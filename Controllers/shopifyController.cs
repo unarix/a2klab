@@ -45,7 +45,7 @@ namespace a2klab.Controllers
         [HttpPost("{filter}")]
         public String ResponseBot(string filter)
         {
-            String respuesta = @"{ ""actions"": [ { ""say"": ""Ok!"" }, { ""collect"": { ""name"": ""deliver_roomitems"", ""questions"": [ { ""question"": ""Cual quieres?"", ""name"": ""item"", ""type"": ""Custom.ROOMITEMS"" }, { ""question"": ""Cuantos quieres?"", ""name"": ""quantity"", ""type"": ""Twilio.NUMBER"" } ], ""on_complete"": { ""redirect"": { ""method"": ""POST"", ""uri"": ""task://complete_collect_roomitems"" } } } } ] }";
+            String respuesta = @"{ ""actions"": [ { ""say"": ""Ok!"" }, { ""collect"": { ""name"": ""deliver_roomitems"", ""questions"": [ { ""question"": ""Cual quieres??"", ""name"": ""item"", ""type"": ""Custom.ROOMITEMS"" }, { ""question"": ""Cuantos quieres?"", ""name"": ""quantity"", ""type"": ""Twilio.NUMBER"" } ], ""on_complete"": { ""redirect"": { ""method"": ""POST"", ""uri"": ""task://complete_collect_roomitems"" } } } } ] }";
             return respuesta;
         }
 
