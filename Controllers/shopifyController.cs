@@ -43,16 +43,9 @@ namespace a2klab.Controllers
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost("{filter}")]
-        public HttpResponseMessage ResponseBot(string filter)
+        public StringContent ResponseBot(string filter)
         {
-            //String respuesta = ;
-
-            var resp = new HttpResponseMessage()
-            {
-                Content = new StringContent(@"{ ""actions"": [ { ""say"": ""Ok!"" }, { ""collect"": { ""name"": ""deliver_roomitems"", ""questions"": [ { ""question"": ""Cual quieres??"", ""name"": ""item"", ""type"": ""Custom.ROOMITEMS"" }, { ""question"": ""Cuantos quieres?"", ""name"": ""quantity"", ""type"": ""Twilio.NUMBER"" } ], ""on_complete"": { ""redirect"": { ""method"": ""POST"", ""uri"": ""task://complete_collect_roomitems"" } } } } ] }")
-            };
-            resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            return resp;
+            return new StringContent(@"{ ""actions"": [ { ""say"": ""Ok!"" }, { ""collect"": { ""name"": ""deliver_roomitems"", ""questions"": [ { ""question"": ""Cual quieres??"", ""name"": ""item"", ""type"": ""Custom.ROOMITEMS"" }, { ""question"": ""Cuantos quieres?"", ""name"": ""quantity"", ""type"": ""Twilio.NUMBER"" } ], ""on_complete"": { ""redirect"": { ""method"": ""POST"", ""uri"": ""task://complete_collect_roomitems"" } } } } ] }")
 
         }
 
