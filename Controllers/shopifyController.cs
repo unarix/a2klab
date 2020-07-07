@@ -43,9 +43,17 @@ namespace a2klab.Controllers
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost("{filter}")]
-        public StringContent ResponseBot(string filter)
+        public List<Action> ResponseBot(string filter)
         {
-            return new StringContent(@"{ ""actions"": [ { ""say"": ""Ok!"" }, { ""collect"": { ""name"": ""deliver_roomitems"", ""questions"": [ { ""question"": ""Cual quieres??"", ""name"": ""item"", ""type"": ""Custom.ROOMITEMS"" }, { ""question"": ""Cuantos quieres?"", ""name"": ""quantity"", ""type"": ""Twilio.NUMBER"" } ], ""on_complete"": { ""redirect"": { ""method"": ""POST"", ""uri"": ""task://complete_collect_roomitems"" } } } } ] }");
+            twilio Twilio = new twilio();
+            Action a = new Action();
+            a.say = "Que producto estas buscando?";
+            Twilio.actions = new List<Action>();
+            Twilio.actions.Add(a);
+
+            return Twilio.actions;
+
+            //"{ "actions": [ { "say": "Ok!" }, { "collect": { "name": "deliver_roomitems", "questions": [ { "question": "Cual quieres??", "name": "item", "type": "Custom.ROOMITEMS" }, { "question": "Cuantos quieres?", "name": "quantity", "type": "Twilio.NUMBER" } ], "on_complete": { "redirect": { "method": "POST", "uri": "task://complete_collect_roomitems" } } } } ] }"
         }
 
         // /// <summary>
@@ -151,6 +159,44 @@ namespace a2klab.Controllers
         public List<Product> products { get; set; } 
 
     }
+
+// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+    public class Question    {
+        public string question { get; set; } 
+        public string name { get; set; } 
+        public string type { get; set; } 
+
+    }
+
+    public class Redirect    {
+        public string method { get; set; } 
+        public string uri { get; set; } 
+
+    }
+
+    public class OnComplete    {
+        public Redirect redirect { get; set; } 
+
+    }
+
+    public class Collect    {
+        public string name { get; set; } 
+        public List<Question> questions { get; set; } 
+        public OnComplete on_complete { get; set; } 
+
+    }
+
+    public class Action    {
+        public string say { get; set; } 
+        public Collect collect { get; set; } 
+
+    }
+
+    public class twilio    {
+        public List<Action> actions { get; set; } 
+
+    }
+
 
 
 }
