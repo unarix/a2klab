@@ -78,7 +78,7 @@
             Simplemente la ejecucion elimina todos los path del server; se debe utilizar solo para depurar.
             </remarks>
         </member>
-        <member name="M:a2klab.Controllers.ShopifyController.getProducts(System.String)">
+        <member name="M:a2klab.Controllers.ShopifyController.ResponseBot(System.String)">
             <summary>
             Obtiene un access token
             </summary>

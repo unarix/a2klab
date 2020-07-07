@@ -34,6 +34,7 @@ namespace a2klab.Controllers
             this.memoryCache = memoryCache;    
         }  
 
+
         /// <summary>
         /// Obtiene un access token
         /// </summary>
@@ -41,41 +42,55 @@ namespace a2klab.Controllers
         /// Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
-        [HttpGet("{filter}")]
-        public List<Product> getProducts(string filter)
+        [HttpPost("{filter}")]
+        public String ResponseBot(string filter)
         {
-            Root products;
-            bool isExist = memoryCache.TryGetValue("products", out products);  
-            // Si no existe en cache renueva la lista de productos
-            if (!isExist)  
-            {                 
-                var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
-
-                var client = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/products.json?fields=id,images,title,handle,variants");
-                client.Timeout = -1;
-                var request = new RestRequest(Method.GET);
-                request.AddHeader("Authorization", "Basic Y2Y5Yjc1MjQ5YjkzMDhiODdkOGIyNmI4OGM2NzEzYTA6c2hwcGFfMDkxMWNkODBhMzYzMmQ5MzEyODE5MTM5ZDJiYTkzOWY=");
-                request.AddHeader("Cookie", "_master_udr=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWszTUdFMFpUSTBaQzFrT1RZeExUUTFaV0V0WVRjNFppMWtOMkV6TnpFd1lqQm1OMllHT2daRlJnPT0iLCJleHAiOiIyMDIyLTA3LTAzVDIwOjEyOjQyLjA1N1oiLCJwdXIiOiJjb29raWUuX21hc3Rlcl91ZHIifX0%3D--1e7946d971f744818706ad361f949d1fb9718c68; _secure_admin_session_id_csrf=86009cb6da5c57a5eac86a9ea2dc0447; _secure_admin_session_id=86009cb6da5c57a5eac86a9ea2dc0447; __cfduid=d3fa2dbec9914f470e845022dbb39e1d71593806347; _orig_referrer=https%3A%2F%2Fcf9b75249b9308b87d8b26b88c6713a0%3A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%40ezelab.myshopify.com%2Fadmin%2Fapi%2F2020-07%2Fproducts.json%26fields%3Dchivas; _shopify_y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _landing_page=%2Fadmin%2Fauth%2Flogin");
-                IRestResponse response = client.Execute(request);
-                
-                products = JsonConvert.DeserializeObject<Root>(response.Content);
-
-                foreach(Product p in products.products)
-                {
-                    p.title = p.title + " - $" + p.variants[0].price;
-                }
-
-                memoryCache.Set("products", products, cacheEntryOptions);  
-            }  
-            if(filter!=null)
-            {
-                List<Product> list = products.products.Where(x => x.title.ToUpper().Contains(filter.ToUpper())).ToList();
-                return list;  
-            }
-            else
-                return products.products; 
-
+            String respuesta = @"{ ""actions"": [ { ""say"": ""Ok!"" }, { ""collect"": { ""name"": ""deliver_roomitems"", ""questions"": [ { ""question"": ""What would you like?"", ""name"": ""item"", ""type"": ""Custom.ROOMITEMS"" }, { ""question"": ""How many do you need?"", ""name"": ""quantity"", ""type"": ""Twilio.NUMBER"" } ], ""on_complete"": { ""redirect"": { ""method"": ""POST"", ""uri"": ""task://complete_collect_roomitems"" } } } } ] }";
+            return respuesta;
         }
+
+        // /// <summary>
+        // /// Obtiene un access token
+        // /// </summary>
+        // /// <remarks>
+        // /// Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
+        // /// </remarks>
+        // [EnableCors("SiteCorsPolicy")]
+        // [HttpGet("{filter}")]
+        // public List<Product> getProducts(string filter)
+        // {
+        //     Root products;
+        //     bool isExist = memoryCache.TryGetValue("products", out products);  
+        //     // Si no existe en cache renueva la lista de productos
+        //     if (!isExist)  
+        //     {                 
+        //         var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+
+        //         var client = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/products.json?fields=id,images,title,handle,variants");
+        //         client.Timeout = -1;
+        //         var request = new RestRequest(Method.GET);
+        //         request.AddHeader("Authorization", "Basic Y2Y5Yjc1MjQ5YjkzMDhiODdkOGIyNmI4OGM2NzEzYTA6c2hwcGFfMDkxMWNkODBhMzYzMmQ5MzEyODE5MTM5ZDJiYTkzOWY=");
+        //         request.AddHeader("Cookie", "_master_udr=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWszTUdFMFpUSTBaQzFrT1RZeExUUTFaV0V0WVRjNFppMWtOMkV6TnpFd1lqQm1OMllHT2daRlJnPT0iLCJleHAiOiIyMDIyLTA3LTAzVDIwOjEyOjQyLjA1N1oiLCJwdXIiOiJjb29raWUuX21hc3Rlcl91ZHIifX0%3D--1e7946d971f744818706ad361f949d1fb9718c68; _secure_admin_session_id_csrf=86009cb6da5c57a5eac86a9ea2dc0447; _secure_admin_session_id=86009cb6da5c57a5eac86a9ea2dc0447; __cfduid=d3fa2dbec9914f470e845022dbb39e1d71593806347; _orig_referrer=https%3A%2F%2Fcf9b75249b9308b87d8b26b88c6713a0%3A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%40ezelab.myshopify.com%2Fadmin%2Fapi%2F2020-07%2Fproducts.json%26fields%3Dchivas; _shopify_y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _landing_page=%2Fadmin%2Fauth%2Flogin");
+        //         IRestResponse response = client.Execute(request);
+                
+        //         products = JsonConvert.DeserializeObject<Root>(response.Content);
+
+        //         foreach(Product p in products.products)
+        //         {
+        //             p.title = p.title + " - $" + p.variants[0].price;
+        //         }
+
+        //         memoryCache.Set("products", products, cacheEntryOptions);  
+        //     }  
+        //     if(filter!=null)
+        //     {
+        //         List<Product> list = products.products.Where(x => x.title.ToUpper().Contains(filter.ToUpper())).ToList();
+        //         return list;  
+        //     }
+        //     else
+        //         return products.products; 
+
+        // }
 
     }
 
