@@ -79,9 +79,9 @@ namespace a2klab.Controllers
                     i=i+1;
                     if (i>5)
                     {
-                        ActionRedirect redirect = new ActionRedirect();
-                        redirect.redirect = "task://task_esperar";
-                        actions.Add(redirect);
+                        //ActionRedirect redirect = new ActionRedirect();
+                        //redirect.redirect = "task://task_esperar";
+                        //actions.Add(redirect);
                         break;
                     }
                 }
