@@ -44,7 +44,7 @@ namespace a2klab.Controllers
         [HttpPost("{filter}")]
         public definitionsSay ResponseBot(string filter)
         {
-
+            
             Root products;
          
             var client = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/products.json?fields=id,images,title,handle,variants");
@@ -59,24 +59,47 @@ namespace a2klab.Controllers
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
             
-            int i = 1;
-            foreach(Product p in products.products)
+            if(filter.Equals("*"))
             {
-                Actionshow a = new Actionshow();
-                //a.say = p.title;
-                //a.say = "Este es nuestro listado de productos: ";
-                Show s = new Show();
-                s.body = p.title + " Precio: $" + p.variants[0].price;
-                s.images = new List<a2klab.Controllers.Image>();
-                a2klab.Controllers.Image image = new a2klab.Controllers.Image();
-                image.label = "Url del producto";
-                image.url = p.images[0].src;
-                s.images.Add(image);
-                a.show = s;
-                actions.Add(a);
-                i=i+1;
-                if (i>5)
-                    break;
+                int i = 1;
+                foreach(Product p in products.products)
+                {
+                    Actionshow a = new Actionshow();
+                    //a.say = p.title;
+                    //a.say = "Este es nuestro listado de productos: ";
+                    Show s = new Show();
+                    s.body = p.title + " Precio: $" + p.variants[0].price;
+                    s.images = new List<a2klab.Controllers.Image>();
+                    a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                    image.label = "Url del producto";
+                    image.url = p.images[0].src;
+                    s.images.Add(image);
+                    a.show = s;
+                    actions.Add(a);
+                    i=i+1;
+                    if (i>5)
+                        break;
+                }
+            }
+            else
+            {
+                List<Product> list = products.products.Where(x => x.title.ToUpper().Contains(filter.ToUpper())).ToList();
+
+                foreach(Product p in list)
+                {
+                    Actionshow a = new Actionshow();
+                    //a.say = p.title;
+                    //a.say = "Este es nuestro listado de productos: ";
+                    Show s = new Show();
+                    s.body = p.title + " Precio: $" + p.variants[0].price;
+                    s.images = new List<a2klab.Controllers.Image>();
+                    a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                    image.label = "Url del producto";
+                    image.url = p.images[0].src;
+                    s.images.Add(image);
+                    a.show = s;
+                    actions.Add(a);
+                }
             }
 
             ActionRedirect redirect = new ActionRedirect();
