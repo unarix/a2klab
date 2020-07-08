@@ -76,11 +76,10 @@ namespace a2klab.Controllers
                 actions.Add(a);
             }
 
-            ActionSayListen say = new ActionSayListen();
-            say.say = "Si te gusto algún producto, dime cual y te enviare el link para su compra!";
-            say.listen = true;
-            actions.Add(say);
-            
+            ActionRedirect redirect = new ActionRedirect();
+            redirect.redirect = "task://task-buscar";
+            actions.Add(redirect);
+
             twilio.actions = actions;
             return twilio;
 
@@ -243,6 +242,10 @@ namespace a2klab.Controllers
    public class definitionsSay    {
         public List<Action> actions { get; set; } 
 
+    }
+
+    public class ActionRedirect : Action   {
+        public string redirect { get; set; } 
     }
 
     public class ActionSayListen : Action   {
