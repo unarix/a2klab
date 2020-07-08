@@ -94,14 +94,6 @@
             Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
             </remarks>
         </member>
-        <member name="M:a2klab.Controllers.ShopifyController.getProducts(System.String)">
-            <summary>
-            Obtiene un access token
-            </summary>
-            <remarks>
-            Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
-            </remarks>
-        </member>
         <member name="M:a2klab.Controllers.SnapController.Index">
             <summary>
             Retorna el ultimo snap
