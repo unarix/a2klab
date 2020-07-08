@@ -31,28 +31,28 @@ namespace a2klab.Controllers
         [HttpPost] 
         public async Task<IActionResult> Index(string imagen_Url, int desdeX, int desdeY, int cuantoAncho, int cuantoAlto, int tamañoWidth, int tamañoHeight)
         {
-            using (Image sourceImage = await this.LoadImageFromUrl(imagen_Url))
-            {
-                if (sourceImage != null)
-                {
-                    try
-                    {
-                        using (Image destinationImage = this.CropImage(sourceImage, desdeX, desdeY, cuantoAncho, cuantoAlto, tamañoWidth, tamañoHeight))
-                        {
-                            Stream outputStream = new MemoryStream();
+            // using (Image sourceImage = await this.LoadImageFromUrl(imagen_Url))
+            // {
+            //     if (sourceImage != null)
+            //     {
+            //         try
+            //         {
+            //             using (Image destinationImage = this.CropImage(sourceImage, desdeX, desdeY, cuantoAncho, cuantoAlto, tamañoWidth, tamañoHeight))
+            //             {
+            //                 Stream outputStream = new MemoryStream();
 
-                            destinationImage.Save(outputStream, ImageFormat.Jpeg);
-                            outputStream.Seek(0, SeekOrigin.Begin);
-                            return this.File(outputStream, "image/png");
-                        }
-                    }
+            //                 destinationImage.Save(outputStream, ImageFormat.Jpeg);
+            //                 outputStream.Seek(0, SeekOrigin.Begin);
+            //                 return this.File(outputStream, "image/png");
+            //             }
+            //         }
 
-                    catch
-                    {
-                        // 
-                    }
-                }
-            }
+            //         catch
+            //         {
+            //             // 
+            //         }
+            //     }
+            // }
 
             return this.NotFound();
         }
@@ -77,44 +77,46 @@ namespace a2klab.Controllers
 
         private async Task<Image> LoadImageFromUrl(string url)
         {
-            Image image = null;
+            // Image image = null;
 
-            try
-            {
-                using (HttpClient httpClient = new HttpClient())
-                using (HttpResponseMessage response = await httpClient.GetAsync(url))
-                using (Stream inputStream = await response.Content.ReadAsStreamAsync())
-                using (Bitmap temp = new Bitmap(inputStream))
-                image = new Bitmap(temp);
-            }
-            catch(Exception ex)
-            {
-                System.Diagnostics.Trace.WriteLine(ex.Message);
-            }
+            // try
+            // {
+            //     using (HttpClient httpClient = new HttpClient())
+            //     using (HttpResponseMessage response = await httpClient.GetAsync(url))
+            //     using (Stream inputStream = await response.Content.ReadAsStreamAsync())
+            //     using (Bitmap temp = new Bitmap(inputStream))
+            //     //image = new Bitmap(temp);
+            // }
+            // catch(Exception ex)
+            // {
+            //     System.Diagnostics.Trace.WriteLine(ex.Message);
+            // }
 
-            return image;
+            return null;
         }
 
         private Image CropImage(Image sourceImage, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int destinationWidth, int destinationHeight)
         {
-            Image destinationImage = new Bitmap(destinationWidth, destinationHeight);
+            // Image destinationImage = new Bitmap(destinationWidth, destinationHeight);
 
-            try
-            {
-                using (Graphics g = Graphics.FromImage(destinationImage))
-                    g.DrawImage(
-                    sourceImage,
-                    new Rectangle(0, 0, destinationWidth, destinationHeight),
-                    new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
-                    GraphicsUnit.Pixel
-                    );   
-            }
-            catch(Exception ex)
-            {
-                System.Diagnostics.Trace.WriteLine(ex.Message);
-            }
+            // try
+            // {
+            //     using (Graphics g = Graphics.FromImage(destinationImage))
+            //         g.DrawImage(
+            //         sourceImage,
+            //         new Rectangle(0, 0, destinationWidth, destinationHeight),
+            //         new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+            //         GraphicsUnit.Pixel
+            //         );   
+            // }
+            // catch(Exception ex)
+            // {
+            //     System.Diagnostics.Trace.WriteLine(ex.Message);
+            // }
 
-            return destinationImage;
+            //return destinationImage;
+
+            return null;
         }
 
     }

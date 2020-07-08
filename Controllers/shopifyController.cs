@@ -58,17 +58,25 @@ namespace a2klab.Controllers
             products = JsonConvert.DeserializeObject<Root>(response.Content);
 
             definitions twilio = new definitions();
-            twilio.actions = new List<Action>();
-
+            List<Action> actions = new List<Action>();
+            
             foreach(Product p in products.products)
             {
-                p.title = p.title + " - $" + p.variants[0].price;
                 Action a = new Action();
                 a.say = p.title;
-                //a.collect = "A.PROD";
-                twilio.actions.Add(a);
+                //a.say = "Este es nuestro listado de productos: ";
+                Show s = new Show();
+                s.body = "Precio: $" + p.variants[0].price;
+                s.images = new List<a2klab.Controllers.Image>();
+                a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                image.label = "Url del producto";
+                image.url = p.images[0].src;
+                s.images.Add(image);
+                a.show = s;
+                actions.Add(a);
             }
-
+            
+            twilio.actions = actions;
             return twilio;
 
             //"{ "actions": [ { "say": "Ok!" }, { "collect": { "name": "deliver_roomitems", "questions": [ { "question": "Cual quieres??", "name": "item", "type": "Custom.ROOMITEMS" }, { "question": "Cuantos quieres?", "name": "quantity", "type": "Twilio.NUMBER" } ], "on_complete": { "redirect": { "method": "POST", "uri": "task://complete_collect_roomitems" } } } } ] }"
@@ -204,9 +212,22 @@ namespace a2klab.Controllers
 
     }
 
+    public class Image    {
+        public string label { get; set; } 
+        public string url { get; set; } 
+
+    }
+
+    public class Show    {
+        public string body { get; set; } 
+        public List<Image> images { get; set; } 
+
+    }
+
     public class Action    {
         public string say { get; set; } 
         //public Collect collect { get; set; } 
+        public Show show { get; set; } 
 
     }
 
