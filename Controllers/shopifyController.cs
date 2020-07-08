@@ -78,7 +78,12 @@ namespace a2klab.Controllers
                     actions.Add(a);
                     i=i+1;
                     if (i>5)
+                    {
+                        ActionRedirect redirect = new ActionRedirect();
+                        redirect.redirect = "task://task_esperar";
+                        actions.Add(redirect);
                         break;
+                    }
                 }
             }
             else
@@ -99,12 +104,11 @@ namespace a2klab.Controllers
                     s.images.Add(image);
                     a.show = s;
                     actions.Add(a);
+                    ActionSay say = new ActionSay();
+                    say.say = "La url para comprar el producto es: https://ezelab.myshopify.com/products/" + p.handle;
+                    actions.Add(say);
                 }
             }
-
-            ActionRedirect redirect = new ActionRedirect();
-            redirect.redirect = "task://task_esperar";
-            actions.Add(redirect);
 
             twilio.actions = actions;
             return twilio;
@@ -274,9 +278,8 @@ namespace a2klab.Controllers
         public string redirect { get; set; } 
     }
 
-    public class ActionSayListen : Action   {
+    public class ActionSay : Action   {
         public string say { get; set; } 
-        public bool listen { get; set; } 
     }
 
 
