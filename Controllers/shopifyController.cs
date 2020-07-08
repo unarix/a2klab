@@ -43,7 +43,7 @@ namespace a2klab.Controllers
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost("{filter}")]
-        public definitionsImg ResponseBot(string filter)
+        public definitionsSay ResponseBot(string filter)
         {
 
             Root products;
@@ -57,12 +57,12 @@ namespace a2klab.Controllers
             
             products = JsonConvert.DeserializeObject<Root>(response.Content);
 
-            definitionsImg twilio = new definitionsImg();
+            definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
             
             foreach(Product p in products.products)
             {
-                Action a = new Action();
+                Actionshow a = new Actionshow();
                 //a.say = p.title;
                 //a.say = "Este es nuestro listado de productos: ";
                 Show s = new Show();
@@ -75,6 +75,11 @@ namespace a2klab.Controllers
                 a.show = s;
                 actions.Add(a);
             }
+
+            ActionSayListen say = new ActionSayListen();
+            say.say = "Si te gusto algún producto, dime cual y te enviare el link para su compra!";
+            say.listen = true;
+            actions.Add(say);
             
             twilio.actions = actions;
             return twilio;
@@ -224,28 +229,25 @@ namespace a2klab.Controllers
 
     }
 
-    public class Action    {
+    public class Actionshow : Action   {
         //public string say { get; set; } 
         //public Collect collect { get; set; } 
         public Show show { get; set; } 
 
     }
 
-    public class definitionsImg    {
+    public class Action    {
+        
+    }
+
+   public class definitionsSay    {
         public List<Action> actions { get; set; } 
 
     }
 
-
-   public class definitionsSay    {
-        public List<ActionSay> actions { get; set; } 
-
-    }
-    public class ActionSay    {
+    public class ActionSayListen : Action   {
         public string say { get; set; } 
-        //public Collect collect { get; set; } 
-        //public Show show { get; set; } 
-
+        public bool listen { get; set; } 
     }
 
 
