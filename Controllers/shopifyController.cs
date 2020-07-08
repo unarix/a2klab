@@ -33,8 +33,7 @@ namespace a2klab.Controllers
         {    
             this.memoryCache = memoryCache;    
         }  
-
-
+        
         /// <summary>
         /// Obtiene un access token
         /// </summary>

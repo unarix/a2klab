@@ -4,6 +4,14 @@
         <name>a2klab</name>
     </assembly>
     <members>
+        <member name="M:a2klab.Controllers.botController.esperarBot(System.String)">
+            <summary>
+            Obtiene un access token
+            </summary>
+            <remarks>
+            Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
+            </remarks>
+        </member>
         <member name="T:a2klab.Controllers.Z_EjemploController">
             <summary>
             Este es un Controller de ejemplo, basarse en este controller para futuros microservicios.
