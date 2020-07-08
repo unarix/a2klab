@@ -60,6 +60,7 @@ namespace a2klab.Controllers
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
             
+            int i = 1;
             foreach(Product p in products.products)
             {
                 Actionshow a = new Actionshow();
@@ -74,6 +75,9 @@ namespace a2klab.Controllers
                 s.images.Add(image);
                 a.show = s;
                 actions.Add(a);
+                i=i+1;
+                if (i>5)
+                    break;
             }
 
             ActionRedirect redirect = new ActionRedirect();
