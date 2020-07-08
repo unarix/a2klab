@@ -43,7 +43,7 @@ namespace a2klab.Controllers
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost("{filter}")]
-        public definitions ResponseBot(string filter)
+        public definitionsImg ResponseBot(string filter)
         {
 
             Root products;
@@ -57,16 +57,16 @@ namespace a2klab.Controllers
             
             products = JsonConvert.DeserializeObject<Root>(response.Content);
 
-            definitions twilio = new definitions();
+            definitionsImg twilio = new definitionsImg();
             List<Action> actions = new List<Action>();
             
             foreach(Product p in products.products)
             {
                 Action a = new Action();
-                a.say = p.title;
+                //a.say = p.title;
                 //a.say = "Este es nuestro listado de productos: ";
                 Show s = new Show();
-                s.body = "Precio: $" + p.variants[0].price;
+                s.body = p.title + " Precio: $" + p.variants[0].price;
                 s.images = new List<a2klab.Controllers.Image>();
                 a2klab.Controllers.Image image = new a2klab.Controllers.Image();
                 image.label = "Url del producto";
@@ -225,17 +225,28 @@ namespace a2klab.Controllers
     }
 
     public class Action    {
-        public string say { get; set; } 
+        //public string say { get; set; } 
         //public Collect collect { get; set; } 
         public Show show { get; set; } 
 
     }
 
-    public class definitions    {
+    public class definitionsImg    {
         public List<Action> actions { get; set; } 
 
     }
 
+
+   public class definitionsSay    {
+        public List<ActionSay> actions { get; set; } 
+
+    }
+    public class ActionSay    {
+        public string say { get; set; } 
+        //public Collect collect { get; set; } 
+        //public Show show { get; set; } 
+
+    }
 
 
 }
