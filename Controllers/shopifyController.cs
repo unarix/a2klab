@@ -66,7 +66,7 @@ namespace a2klab.Controllers
             a.show = s;
             actions.Add(a);
             ActionSay say = new ActionSay();
-            //say.say =  "No encontré nada con el nombre " + Memory;
+            say.say =  "No encontré nada con el nombre " + Memory;
             actions.Add(say);
 
             twilio.actions = actions;
