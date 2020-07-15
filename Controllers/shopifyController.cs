@@ -42,7 +42,9 @@ namespace a2klab.Controllers
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost, Route("Buscar")]
-        public definitionsSay buscarTest([FromBody]object Memory)
+        public definitionsSay buscarTest([FromBody]object AccountSid, [FromBody]object AssistantSid, [FromBody]object CallbackSource, [FromBody]object Channel, 
+        [FromBody]object CollectionSid, [FromBody]object CurrentInput, [FromBody]object CurrentTask, [FromBody]object CurrentTaskConfidence, 
+        [FromBody]object DialoguePayloadUrl, [FromBody]object DialogueSid, [FromBody]object Memory, [FromBody]object NextBestTask, [FromBody]object UserIdentifier)
         {
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
