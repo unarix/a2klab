@@ -77,36 +77,57 @@ namespace a2klab.Controllers
                     a.show = s;
                     actions.Add(a);
                     i=i+1;
-                    if (i>5)
-                    {
+                    //if (i>5)
+                    //{
                         //ActionRedirect redirect = new ActionRedirect();
                         //redirect.redirect = "task://task_esperar";
                         //actions.Add(redirect);
-                        break;
-                    }
+                    //    break;
+                    //}
                 }
             }
             else
             {
                 List<Product> list = products.products.Where(x => x.title.ToUpper().Contains(filter.ToUpper())).ToList();
 
-                foreach(Product p in list)
+                if(list.Count>0)
                 {
-                    Actionshow a = new Actionshow();
-                    //a.say = p.title;
-                    //a.say = "Este es nuestro listado de productos: ";
-                    Show s = new Show();
-                    s.body = p.title + " Precio: $" + p.variants[0].price;
-                    s.images = new List<a2klab.Controllers.Image>();
-                    a2klab.Controllers.Image image = new a2klab.Controllers.Image();
-                    image.label = "Url del producto";
-                    image.url = p.images[0].src;
-                    s.images.Add(image);
-                    a.show = s;
-                    actions.Add(a);
-                    ActionSay say = new ActionSay();
-                    say.say = "La url para comprar el producto es: https://ezelab.myshopify.com/products/" + p.handle;
-                    actions.Add(say);
+                    foreach(Product p in list)
+                    {
+                        Actionshow a = new Actionshow();
+                        //a.say = p.title;
+                        //a.say = "Este es nuestro listado de productos: ";
+                        Show s = new Show();
+                        s.body = p.title + " Precio: $" + p.variants[0].price;
+                        s.images = new List<a2klab.Controllers.Image>();
+                        a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                        image.label = "Url del producto";
+                        image.url = p.images[0].src;
+                        s.images.Add(image);
+                        a.show = s;
+                        actions.Add(a);
+                        ActionSay say = new ActionSay();
+                        say.say = "La url para comprar el producto es: https://ezelab.myshopify.com/products/" + p.handle;
+                        actions.Add(say);
+                    }
+                }
+                else
+                {
+                        Actionshow a = new Actionshow();
+                        //a.say = p.title;
+                        //a.say = "Este es nuestro listado de productos: ";
+                        Show s = new Show();
+                        s.body = "No encontré nada con el nombre " + filter;
+                        s.images = new List<a2klab.Controllers.Image>();
+                        a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                        image.label = "Url del producto";
+                        image.url = "";
+                        s.images.Add(image);
+                        a.show = s;
+                        actions.Add(a);
+                        ActionSay say = new ActionSay();
+                        say.say =  "No encontré nada con el nombre " + filter;
+                        actions.Add(say);
                 }
             }
 
