@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Caching.Memory;
 using RestSharp;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace a2klab.Controllers
 {
@@ -48,15 +49,15 @@ namespace a2klab.Controllers
             // El objeto memory lo voy a tener que descerealizar:
             //pepe pep = JsonConvert.DeserializeObject<pepe>(Memory);
             //return Json(pep);
-
-            //dynamic d = Memory.Parse(Memory);
+            var jsonObject = new JObject();
+            dynamic d = JObject.Parse(Memory);
 
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
 
             Actionshow a = new Actionshow();
             Show s = new Show();
-            s.body = "No encontré nada con el nombre " + Memory;
+            s.body = "No encontré nada con el nombre " + d.answer;
             s.images = new List<a2klab.Controllers.Image>();
             a2klab.Controllers.Image image = new a2klab.Controllers.Image();
             image.label = "Url del producto";
