@@ -42,8 +42,13 @@ namespace a2klab.Controllers
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost, Route("Buscar")]
-        public definitionsSay buscarTest([FromBody]object Memory)
+        [Consumes("application/x-www-form-urlencoded")]
+        public definitionsSay buscarTest([FromForm]object Memory)
         {
+            // El objeto memory lo voy a tener que descerealizar:
+            //pepe pep = JsonConvert.DeserializeObject<pepe>(Memory);
+            //return Json(pep);
+
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
 
