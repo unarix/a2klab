@@ -35,7 +35,38 @@ namespace a2klab.Controllers
         }  
 
         /// <summary>
-        /// Obtiene un access token
+        /// Busca un producto determinado
+        /// </summary>
+        /// <remarks>
+        /// Se podria buscar en la cache directamente para no hacer una llamada a la api de shopify
+        /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
+        [HttpPost, Route("Buscar")]
+        public definitionsSay buscarTest([FromBody]object Memory)
+        {
+            definitionsSay twilio = new definitionsSay();
+            List<Action> actions = new List<Action>();
+
+            Actionshow a = new Actionshow();
+            Show s = new Show();
+            s.body = "No encontré nada con el nombre " + Memory;
+            s.images = new List<a2klab.Controllers.Image>();
+            a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+            image.label = "Url del producto";
+            image.url = "";
+            s.images.Add(image);
+            a.show = s;
+            actions.Add(a);
+            ActionSay say = new ActionSay();
+            say.say =  "No encontré nada con el nombre " + Memory;
+            actions.Add(say);
+
+            twilio.actions = actions;
+            return twilio;
+        }
+
+        /// <summary>
+        /// Retorna un listado de productos
         /// </summary>
         /// <remarks>
         /// Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
