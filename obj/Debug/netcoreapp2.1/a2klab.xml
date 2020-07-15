@@ -86,7 +86,7 @@
             Simplemente la ejecucion elimina todos los path del server; se debe utilizar solo para depurar.
             </remarks>
         </member>
-        <member name="M:a2klab.Controllers.ShopifyController.buscarTest(System.Object)">
+        <member name="M:a2klab.Controllers.ShopifyController.buscarTest(System.String)">
             <summary>
             Busca un producto determinado
             </summary>

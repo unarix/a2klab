@@ -43,11 +43,13 @@ namespace a2klab.Controllers
         [EnableCors("SiteCorsPolicy")]
         [HttpPost, Route("Buscar")]
         [Consumes("application/x-www-form-urlencoded")]
-        public definitionsSay buscarTest([FromForm]object Memory)
+        public definitionsSay buscarTest([FromForm]string Memory)
         {
             // El objeto memory lo voy a tener que descerealizar:
             //pepe pep = JsonConvert.DeserializeObject<pepe>(Memory);
             //return Json(pep);
+
+            //dynamic d = Memory.Parse(Memory);
 
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
