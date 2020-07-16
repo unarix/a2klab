@@ -72,8 +72,6 @@ namespace a2klab.Controllers
                 foreach(Product p in list)
                 {
                     Actionshow a = new Actionshow();
-                    //a.say = p.title;
-                    //a.say = "Este es nuestro listado de productos: ";
                     Show s = new Show();
                     s.body = p.title + " Precio: $" + p.variants[0].price;
                     s.images = new List<a2klab.Controllers.Image>();
@@ -91,8 +89,6 @@ namespace a2klab.Controllers
             else
             {
                     Actionshow a = new Actionshow();
-                    //a.say = p.title;
-                    //a.say = "Este es nuestro listado de productos: ";
                     Show s = new Show();
                     s.body = "No encontré nada con el nombre " + filter;
                     s.images = new List<a2klab.Controllers.Image>();
@@ -174,8 +170,6 @@ namespace a2klab.Controllers
                     foreach(Product p in list)
                     {
                         Actionshow a = new Actionshow();
-                        //a.say = p.title;
-                        //a.say = "Este es nuestro listado de productos: ";
                         Show s = new Show();
                         s.body = p.title + " Precio: $" + p.variants[0].price;
                         s.images = new List<a2klab.Controllers.Image>();
@@ -193,8 +187,6 @@ namespace a2klab.Controllers
                 else
                 {
                         Actionshow a = new Actionshow();
-                        //a.say = p.title;
-                        //a.say = "Este es nuestro listado de productos: ";
                         Show s = new Show();
                         s.body = "No encontré nada con el nombre " + filter;
                         s.images = new List<a2klab.Controllers.Image>();
