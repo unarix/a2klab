@@ -77,13 +77,13 @@ namespace a2klab.Controllers
                     Actionshow a = new Actionshow();
                     Show s = new Show();
                     s.body = ((p.mov.Equals("D"))? "Partida" : "Arribo") + " de la aerolínea " + p.aerolinea
-                            + "/n Nro vuelo: " + p.nro
-                            + "/n - " + ((p.mov.Equals("D"))? "Con destino: " : "Desde origen: ") + p.destorig
-                            + "/n - Hora estimada " + ((p.mov.Equals("D"))? "de partida: ": "de arribo: ") + ((p.term == null) ? "sin estima" : p.term)
-                            + "/n - Hora programada: " + p.stda
-                            + "/n - " + ((p.mov.Equals("D"))? "Checkin Nro: 0" + p.chk_from + " al 0" + p.chk_to : "Puerta: " + ((p.gate.Equals("") ? "no asignada" : p.gate)))
-                            + "/n - Terminal: " + ((p.term == null) ? "no asignada" : p.term)
-                            + "/n - Estado: " + ((p.estes.Equals("")) ? "sin estado" : p.estes);
+                            + "\n Nro vuelo: " + p.nro
+                            + "\n - " + ((p.mov.Equals("D"))? "Con destino: " : "Desde origen: ") + p.destorig
+                            + "\n - Hora estimada " + ((p.mov.Equals("D"))? "de partida: ": "de arribo: ") + ((p.term == null) ? "sin estima" : p.term)
+                            + "\n - Hora programada: " + p.stda
+                            + "\n - " + ((p.mov.Equals("D"))? "Checkin Nro: 0" + p.chk_from + " al 0" + p.chk_to : "Puerta: " + ((p.gate.Equals("") ? "no asignada" : p.gate)))
+                            + "\n - Terminal: " + ((p.term == null) ? "no asignada" : p.term)
+                            + "\n - Estado: " + ((p.estes.Equals("")) ? "sin estado" : p.estes);
                     s.images = new List<a2klab.Controllers.Image>();
                     a2klab.Controllers.Image image = new a2klab.Controllers.Image();
                     image.label = "logo aerolinea";
