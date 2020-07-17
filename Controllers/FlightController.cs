@@ -35,18 +35,18 @@ namespace a2klab.Controllers
         public definitionsSay flight([FromForm]string Memory)
         //public definitionsSay flight(string filter)
         {
-            definitionsSay twilio = new definitionsSay();
-            List<Action> actions = new List<Action>();
-            ActionSay say = new ActionSay();
-            say.say = Memory;
-            actions.Add(say);
-            twilio.actions = actions;
-            return twilio;
+            // definitionsSay twilio = new definitionsSay();
+            // List<Action> actions = new List<Action>();
+            // ActionSay say = new ActionSay();
+            // say.say = Memory;
+            // actions.Add(say);
+            // twilio.actions = actions;
+            // return twilio;
 
             //filter = (filter==null)? "" : filter;
             var jsonObject = new JObject();
             dynamic d = JObject.Parse(Memory);
-            string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda;
+            string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda.answer;
 
             var client = new RestClient("https://api.aa2000.com.ar/api/Vuelos?idarpt=EZE");
             client.Timeout = -1;
@@ -67,8 +67,8 @@ namespace a2klab.Controllers
                 list = (list.Count == 0)? vuelos.Where(x => (x.idaerolinea.ToUpper()+x.nro.ToUpper()).Replace("-","").Replace(" ","").Contains(filter.ToUpper().Replace("-","").Replace(" ",""))).ToList() : list;
             }
 
-            //definitionsSay twilio = new definitionsSay();
-            //List<Action> actions = new List<Action>();
+            definitionsSay twilio = new definitionsSay();
+            List<Action> actions = new List<Action>();
 
             if(list.Count>0)
             {
