@@ -35,6 +35,14 @@ namespace a2klab.Controllers
         public definitionsSay flight([FromForm]string Memory)
         //public definitionsSay flight(string filter)
         {
+            definitionsSay twilio = new definitionsSay();
+            List<Action> actions = new List<Action>();
+            ActionSay say = new ActionSay();
+            say.say = Memory;
+            actions.Add(say);
+            twilio.actions = actions;
+            return twilio;
+
             //filter = (filter==null)? "" : filter;
             var jsonObject = new JObject();
             dynamic d = JObject.Parse(Memory);
@@ -59,8 +67,8 @@ namespace a2klab.Controllers
                 list = (list.Count == 0)? vuelos.Where(x => (x.idaerolinea.ToUpper()+x.nro.ToUpper()).Replace("-","").Replace(" ","").Contains(filter.ToUpper().Replace("-","").Replace(" ",""))).ToList() : list;
             }
 
-            definitionsSay twilio = new definitionsSay();
-            List<Action> actions = new List<Action>();
+            //definitionsSay twilio = new definitionsSay();
+            //List<Action> actions = new List<Action>();
 
             if(list.Count>0)
             {
