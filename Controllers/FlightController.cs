@@ -38,7 +38,7 @@ namespace a2klab.Controllers
             //filter = (filter==null)? "" : filter;
             var jsonObject = new JObject();
             dynamic d = JObject.Parse(Memory);
-            string filter = d.twilio.collected_data.collect_buscar_producto.answers.vuelo_busqueda;
+            string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda;
 
             var client = new RestClient("https://api.aa2000.com.ar/api/Vuelos?idarpt=EZE");
             client.Timeout = -1;
