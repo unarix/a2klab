@@ -87,7 +87,7 @@ namespace a2klab.Controllers
                     s.images = new List<a2klab.Controllers.Image>();
                     a2klab.Controllers.Image image = new a2klab.Controllers.Image();
                     image.label = "logo aerolinea";
-                    image.url = p.logo;
+                    image.url = "https://is5-ssl.mzstatic.com/image/thumb/Purple124/v4/45/24/0a/45240ac1-f199-0d50-8781-fbd6ac4804b6/source/256x256bb.jpg";
                     s.images.Add(image);
                     a.show = s;
                     actions.Add(a);
