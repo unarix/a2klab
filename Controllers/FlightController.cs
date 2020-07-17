@@ -16,7 +16,7 @@ namespace a2klab.Controllers
     public class FlightController : Controller
     {
         private IMemoryCache memoryCache;    
-        string globalK = "BV0T1CVeqznoJdyI/feTMApFedUOnZ/M";
+        string globalK = "BV0T1CVeqznoJdyI/pelufo/feTMApFedUOnZ/M";
 
         public FlightController(IMemoryCache memoryCache)    
         {    
@@ -32,46 +32,75 @@ namespace a2klab.Controllers
         [EnableCors("SiteCorsPolicy")]
         [HttpPost, Route("Buscar")]
         [Consumes("application/x-www-form-urlencoded")]
-        public List<Flight> flight(string filter)
+        public definitionsSay flight([FromForm]string Memory)
+        //public definitionsSay flight(string filter)
         {
-            filter = (filter==null)? "" : filter;
-
-            //var jsonObject = new JObject();
-            //dynamic d = JObject.Parse(Memory);
-
-            //string filter = d.twilio.collected_data.collect_buscar_producto.answers.vuelo_busqueda;
+            //filter = (filter==null)? "" : filter;
+            var jsonObject = new JObject();
+            dynamic d = JObject.Parse(Memory);
+            string filter = d.twilio.collected_data.collect_buscar_producto.answers.vuelo_busqueda;
 
             var client = new RestClient("https://api.aa2000.com.ar/api/Vuelos?idarpt=EZE");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
-            request.AddHeader("key", globalK);
+            request.AddHeader("key", globalK.Replace("pelufo/",""));
             IRestResponse response = client.Execute(request);
             List<Flight> vuelos = JsonConvert.DeserializeObject<List<Flight>>(response.Content); 
             
+            // Replica filtro y busco en la list original
             List<Flight> list = vuelos;
-
-            if(!filter.Trim().Equals(""))
+            if(!filter.Trim().Equals("") && (vuelos.Count>0))
             {    
                 // Se fija si alguna aerolinea coincide
-                list = vuelos.Where(x => x.aerolinea.ToUpper().Replace(" ","").Replace("S","").Contains(filter.ToUpper().Replace(" ","").Replace("S",""))).ToList();
-                
+                list = vuelos.Where(x => x.aerolinea.ToUpper().Replace(" ","").Replace("S","").Contains(filter.ToUpper().Replace(" ","").Replace("S",""))).ToList();  
                 // Si no es una aerolinea busco por el destino u origen
-                if (list.Count == 0)
-                {
-                    list = vuelos.Where(x => x.destorig.ToUpper().Replace(" ","").Contains(filter.ToUpper().Replace(" ",""))).ToList();
-                }
+                list = (list.Count == 0)? vuelos.Where(x => x.destorig.ToUpper().Replace(" ","").Contains(filter.ToUpper().Replace(" ",""))).ToList() : list;
                 // Si no encontre nada busco por el numero de vuelo
-                if (list.Count == 0)
-                {
-                    list = vuelos.Where(x => (x.idaerolinea.ToUpper()+x.nro.ToUpper()).Replace("-","").Replace(" ","").Contains(filter.ToUpper().Replace("-","").Replace(" ",""))).ToList();
-                }
+                list = (list.Count == 0)? vuelos.Where(x => (x.idaerolinea.ToUpper()+x.nro.ToUpper()).Replace("-","").Replace(" ","").Contains(filter.ToUpper().Replace("-","").Replace(" ",""))).ToList() : list;
             }
 
-            return list;
-        }
-    }
-}
+            definitionsSay twilio = new definitionsSay();
+            List<Action> actions = new List<Action>();
 
+            if(list.Count>0)
+            {
+                foreach(Flight p in list)
+                {
+                    Actionshow a = new Actionshow();
+                    Show s = new Show();
+                    s.body = ((p.mov.Equals("D"))? "Partida" : "Arribo") + " de la aerolínea " + p.aerolinea
+                            + "/n Nro vuelo: " + p.nro
+                            + "/n - " + ((p.mov.Equals("D"))? "Con destino: " : "Desde origen: ") + p.destorig
+                            + "/n - Hora estimada " + ((p.mov.Equals("D"))? "de partida: ": "de arribo: ") + ((p.term == null) ? "sin estima" : p.term)
+                            + "/n - Hora programada: " + p.stda
+                            + "/n - " + ((p.mov.Equals("D"))? "Checkin Nro: 0" + p.chk_from + " al 0" + p.chk_to : "Puerta: " + ((p.gate.Equals("") ? "no asignada" : p.gate)))
+                            + "/n - Terminal: " + ((p.term == null) ? "no asignada" : p.term)
+                            + "/n - Estado: " + ((p.estes.Equals("")) ? "sin estado" : p.estes);
+                    s.images = new List<a2klab.Controllers.Image>();
+                    a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                    image.label = "logo aerolinea";
+                    image.url = p.logo;
+                    s.images.Add(image);
+                    a.show = s;
+                    actions.Add(a);
+                    // ActionSay say = new ActionSay();
+                    // say.say = "Vuelo: " + p.idaerolinea + "-" + p.nro
+                    //         + "/n - " + ((p.mov.Equals("D"))? "Con destino: " : "Desde origen: ") + p.destorig
+                    //         + "/n - Hora estimada " + ((p.mov.Equals("D"))? "de partida: ": "de arribo: ") + p.etda 
+                    //         + "/n - Hora programada: " + p.stda
+                    //         + "/n - " + ((p.mov.Equals("D"))? "Checkin Nro: " + p.chk_from + " al " + p.chk_to : "Puerta: " + p.gate)
+                    //         + "/n - Terminal : " + p.term;
+                    // actions.Add(say);
+                }
+            }
+            
+            twilio.actions = actions;
+            return twilio;
+        }
+  
+    }
+
+}
 // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
     public class Flight    {
         public string id { get; set; } 
