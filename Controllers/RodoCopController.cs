@@ -180,7 +180,7 @@ namespace a2klab.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest("Eeeee amigo! No existe ese numero de ticket... que onda?");
+                return BadRequest("Eeeee amigo! No existe ese numero de ticket... que onda? " + ex.Message);
             }
 
             return returnPath;
@@ -190,7 +190,7 @@ namespace a2klab.Controllers
         /// Elimina todos los directorios creados 
         /// </summary>
         /// <remarks>
-        /// Simplemente la ejecucion elimina todos los path del server; se debe utilizar solo para depurar.
+        /// Simplemente la ejecución elimina todos los path del server; se debe utilizar solo para depurar.
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpGet]
@@ -211,7 +211,7 @@ namespace a2klab.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest("Los directorios ya estan limpios: " + ex.Message);
+                return BadRequest("Los directorios ya están limpios: " + ex.Message);
             }
 
             return new string[] { "OK", "Eliminado " + delPathUpload + " / " + delPathDeploy};
