@@ -60,15 +60,15 @@ namespace a2klab.Controllers
                 actions.Add(say);
                 
                 ActionSay say1 = new ActionSay();
-                say1.say = "*Utiliza la siguiente URL para efectuar tu pago:*" 
-                + "\n http://api.aa2000.com.ar/WEBFORMS/PAYPARK.ASPX?IDNS_TARJETA=1&NROOPERACION="+ ticket +"8&MONTOE="+ticketResponse.remaining+"&MONTOD=00&CATEG="+ticketResponse.category
-                + "\n Luego de realizar el pago recibirás un email de confirmación. Tiene hasta 15 minutos para retirarte sin cargo, escaneando tu ticket en cualquier via de salida!"
+                say1.say = "*Utiliza la siguiente link para efectuar tu pago:*" 
+                + "\nHTTPS://api.aa2000.com.ar/WEBFORMS/PAYPARK.ASPX?IDNS_TARJETA=1&NROOPERACION="+ ticket +"8&MONTOE="+ticketResponse.remaining+"&MONTOD=00&CATEG="+ticketResponse.category
+                + "\nLuego de realizar el pago recibirás un email de confirmación. Tiene hasta 15 minutos para retirarte sin cargo, escaneando tu ticket en cualquier via de salida!"
                 + "";
                 actions.Add(say1);
             }
             else{
                 say.say = "Tu ticket *no fue encontrado*. Asegurate de ingresar bien todos los números del ticket."
-                +"\n Estare aquí por si me necesitas nuevamente!";
+                +"\nEstare aquí por si me necesitas nuevamente!";
                 actions.Add(say);
             }
             
