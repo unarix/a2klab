@@ -32,10 +32,10 @@ namespace a2klab.Controllers
         }  
 
         /// <summary>
-        /// Obtiene un access token
+        /// Produce una espera 
         /// </summary>
         /// <remarks>
-        /// Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
+        /// Cuelga la respuesta por una determinada cantidad de tiempo
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
         [HttpPost("{timetoaction}")]
@@ -51,6 +51,26 @@ namespace a2klab.Controllers
             redirect.redirect = "task://" + magicvar[1];
             actions.Add(redirect);
 
+            twilio.actions = actions;
+            return twilio;
+        }
+
+        /// <summary>
+        /// Este metodo es usado para debuguear la respuesta del bot, retorna el objeto crudo enviado por twillio
+        /// </summary>
+        /// <remarks>
+        /// Retorna un objeto crudo JSON
+        /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
+        [HttpPost, Route("Test")]
+        [Consumes("application/x-www-form-urlencoded")]
+        public definitionsSay Test([FromForm]string Memory)
+        {
+            definitionsSay twilio = new definitionsSay();
+            List<Action> actions = new List<Action>();
+            ActionSay say = new ActionSay();
+            say.say = Memory;
+            actions.Add(say);
             twilio.actions = actions;
             return twilio;
         }

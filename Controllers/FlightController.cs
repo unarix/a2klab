@@ -33,17 +33,7 @@ namespace a2klab.Controllers
         [HttpPost, Route("Buscar")]
         [Consumes("application/x-www-form-urlencoded")]
         public definitionsSay flight([FromForm]string Memory)
-        //public definitionsSay flight(string filter)
         {
-            // definitionsSay twilio = new definitionsSay();
-            // List<Action> actions = new List<Action>();
-            // ActionSay say = new ActionSay();
-            // say.say = Memory;
-            // actions.Add(say);
-            // twilio.actions = actions;
-            // return twilio;
-
-            //filter = (filter==null)? "" : filter;
             var jsonObject = new JObject();
             dynamic d = JObject.Parse(Memory);
             string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda.answer;
@@ -59,11 +49,11 @@ namespace a2klab.Controllers
             List<Flight> list = vuelos;
             if(!filter.Trim().Equals("") && (vuelos.Count>0))
             {    
-                // Se fija si alguna aerolinea coincide
+                // Se fija si alguna aerolínea coincide
                 list = vuelos.Where(x => x.aerolinea.ToUpper().Replace(" ","").Replace("S","").Contains(filter.ToUpper().Replace(" ","").Replace("S",""))).ToList();  
-                // Si no es una aerolinea busco por el destino u origen
+                // Si no es una aerolínea busco por el destino u origen
                 list = (list.Count == 0)? vuelos.Where(x => x.destorig.ToUpper().Replace(" ","").Contains(filter.ToUpper().Replace(" ",""))).ToList() : list;
-                // Si no encontre nada busco por el numero de vuelo
+                // Si no encontré nada busco por el numero de vuelo
                 list = (list.Count == 0)? vuelos.Where(x => (x.idaerolinea.ToUpper()+x.nro.ToUpper()).Replace("-","").Replace(" ","").Contains(filter.ToUpper().Replace("-","").Replace(" ",""))).ToList() : list;
             }
 
@@ -91,14 +81,6 @@ namespace a2klab.Controllers
                     s.images.Add(image);
                     a.show = s;
                     actions.Add(a);
-                    // ActionSay say = new ActionSay();
-                    // say.say = "Vuelo: " + p.idaerolinea + "-" + p.nro
-                    //         + "/n - " + ((p.mov.Equals("D"))? "Con destino: " : "Desde origen: ") + p.destorig
-                    //         + "/n - Hora estimada " + ((p.mov.Equals("D"))? "de partida: ": "de arribo: ") + p.etda 
-                    //         + "/n - Hora programada: " + p.stda
-                    //         + "/n - " + ((p.mov.Equals("D"))? "Checkin Nro: " + p.chk_from + " al " + p.chk_to : "Puerta: " + p.gate)
-                    //         + "/n - Terminal : " + p.term;
-                    // actions.Add(say);
                 }
             }
             else
@@ -152,9 +134,3 @@ public class Flight    {
     public object term { get; set; } 
 
 }
-
-public class Flights {
-    public List<Flight> MyFlight { get; set; } 
-
-}
-
