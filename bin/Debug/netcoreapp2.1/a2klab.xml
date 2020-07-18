@@ -6,10 +6,18 @@
     <members>
         <member name="M:a2klab.Controllers.botController.esperarBot(System.String)">
             <summary>
-            Obtiene un access token
+            Produce una espera 
             </summary>
             <remarks>
-            Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
+            Cuelga la respuesta por una determinada cantidad de tiempo
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.botController.Test(System.String)">
+            <summary>
+            Este metodo es usado para debuguear la respuesta del bot, retorna el objeto crudo enviado por twillio
+            </summary>
+            <remarks>
+            Retorna un objeto crudo JSON
             </remarks>
         </member>
         <member name="T:a2klab.Controllers.Z_EjemploController">
@@ -69,6 +77,14 @@
             TODO: Se podria buscar en la cache directamente para no hacer una llamada a la api!
             </remarks>
         </member>
+        <member name="M:a2klab.Controllers.ParkingController.Ticket(System.String)">
+            <summary>
+            Retorna el precio de un ticket
+            </summary>
+            <remarks>
+            TODO: limpiar 
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.RodoCopController.RodoCopQry">
             <summary>
             El servicio carga los archivos enviados por el presentador en su respectiva carpeta
@@ -91,7 +107,7 @@
             Elimina todos los directorios creados 
             </summary>
             <remarks>
-            Simplemente la ejecucion elimina todos los path del server; se debe utilizar solo para depurar.
+            Simplemente la ejecución elimina todos los path del server; se debe utilizar solo para depurar.
             </remarks>
         </member>
         <member name="M:a2klab.Controllers.ShopifyController.buscarTest(System.String)">

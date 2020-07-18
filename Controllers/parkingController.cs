@@ -41,9 +41,9 @@ namespace a2klab.Controllers
             string ticket = d.twilio.collected_data.collect_parking.answers.ticket_nro.answer;
             string category = "3";
 
-            var client = new RestClient("api/Parking?ticket=TEZE"+ticket.ToUpper().Replace("TEZE","")+"&category="+ category);
+            var client = new RestClient("http://api.aa2000.com.ar/api/Parking?ticket=TEZE"+ticket.ToUpper().Replace("TEZE","")+"&category="+ category);
             client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
+            var request = new RestRequest(Method.POST);
             request.AddHeader("key", globalK.Replace("pelufo/",""));
             IRestResponse response = client.Execute(request);
             Ticket ticketResponse = JsonConvert.DeserializeObject<Ticket>(response.Content); 
@@ -52,26 +52,24 @@ namespace a2klab.Controllers
             List<Action> actions = new List<Action>();
             
             ActionSay say = new ActionSay();
-            if(ticketResponse.Error!=null)
-            {
-                if(ticketResponse.Equals("")){
-                    say.say = "Tu ticket de Parking Ezeiza Nro: *" + ticket + "*"
-                    +"\n - Tu estadía: *$ " + ticketResponse.remaining + "*"
-                    +"\n - Cantidad de minutos: " + ticketResponse.minutes
-                    +"\n - Hora y dia de entrada: " + ticketResponse.creation;
-                    actions.Add(say);
-
-                    say.say = "*Utiliza la siguiente URL para efectuar tu pago:*" 
-                    + "\n http://api.aa2000.com.ar/WEBFORMS/PAYPARK.ASPX?IDNS_TARJETA=1&NROOPERACION="+ticketResponse.remaining +"8&MONTOE="+ticketResponse.remaining+"&MONTOD=00&CATEG="+ticketResponse.category
-                    + "\n Luego de realizar el pago recibirás un email de confirmación. Tiene hasta 15 minutos para retirarte sin cargo, escaneando tu ticket en cualquier via de salida!"
-                    + "";
-                    actions.Add(say);
-                }
-                else{
-                    say.say = "Tu ticket *no fue encontrado*. Asegurate de ingresar bien todos los números del ticket."
-                    +"\n Estare aquí por si me necesitas nuevamente!";
-                    actions.Add(say);
-                }
+            if(ticketResponse.Error==null){
+                say.say = "Tu ticket de Parking Ezeiza es el Nro: *" + ticket + "* (Asegurate que sea el mismo que en tu ticket!)"
+                +"\n - Tu estadía: *$ " + ticketResponse.remaining + "*"
+                +"\n - Cantidad de minutos: " + ticketResponse.minutes
+                +"\n - Hora y dia de entrada: " + ticketResponse.creation;
+                actions.Add(say);
+                
+                ActionSay say1 = new ActionSay();
+                say1.say = "*Utiliza la siguiente URL para efectuar tu pago:*" 
+                + "\n http://api.aa2000.com.ar/WEBFORMS/PAYPARK.ASPX?IDNS_TARJETA=1&NROOPERACION="+ ticket +"8&MONTOE="+ticketResponse.remaining+"&MONTOD=00&CATEG="+ticketResponse.category
+                + "\n Luego de realizar el pago recibirás un email de confirmación. Tiene hasta 15 minutos para retirarte sin cargo, escaneando tu ticket en cualquier via de salida!"
+                + "";
+                actions.Add(say1);
+            }
+            else{
+                say.say = "Tu ticket *no fue encontrado*. Asegurate de ingresar bien todos los números del ticket."
+                +"\n Estare aquí por si me necesitas nuevamente!";
+                actions.Add(say);
             }
             
             twilio.actions = actions;
