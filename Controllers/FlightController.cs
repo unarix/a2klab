@@ -26,7 +26,7 @@ namespace a2klab.Controllers
             this.memoryCache = memoryCache;
         }  
 
-
+        // InMemory Database! caro pero el mejor.
         private List<Data> getData(string phone)
         {
             List<Data> data = new List<Data>();
@@ -34,8 +34,6 @@ namespace a2klab.Controllers
             var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
             if(!isExist)
                 memoryCache.Set("Datas", data, cacheEntryOptions);  
-            
-            
             data = data.Where(x => x.phone.ToUpper().Contains(phone.ToUpper())).ToList();
             return data;
         }
@@ -45,8 +43,20 @@ namespace a2klab.Controllers
             List<Data> data;
             bool isExist = memoryCache.TryGetValue("Datas", out data);
             var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
-            if(!isExist || data == null) data = new List<Data>();
-            data.Add(newData);
+            if(!isExist || data == null)
+            {
+                data = new List<Data>();
+                data.Add(newData);
+            }
+            else
+            {
+                try{
+                    data[data.FindIndex(ind=>ind.phone.Equals(newData.phone))] = newData;
+                }
+                catch{
+                    data.Add(newData);
+                }
+            }
             memoryCache.Set("Datas", data, cacheEntryOptions);
         }
 
@@ -71,7 +81,7 @@ namespace a2klab.Controllers
             List<Action> actions = new List<Action>();
             ActionSay say = new ActionSay();
             if(respuesta.ToUpper().Contains("SI"))
-                say.say = "Perfecto, ya te registre para el aviso del vuelo " + dta[0].flight + " al numero " + phone.ToUpper().Replace("WHATSAPP:","") + ". Que tal si buscas alguna de nuestras promociones mientras tanto? Puedo mostrartelas si contestas *ver productos*";
+                say.say = "Perfecto, ya te registre para el aviso del vuelo *" + dta[0].flight + "* al numero " + phone.ToUpper().Replace("WHATSAPP:","") + ". Que tal si buscas alguna de nuestras promociones mientras tanto? Puedo mostrartelas si contestas *ver productos*";
             else
                 say.say = "Ok, no te registrare al vuelo " + dta[0].flight + ". Que tal si aprovechas alguna de nuestras promociones mientras tanto? Puedo mostrartelas si contestas *ver productos*";
             actions.Add(say);
@@ -146,7 +156,7 @@ namespace a2klab.Controllers
                         actions.Add(a);
 
                         ActionSay say = new ActionSay();
-                        say.say = "Esto es lo que he encontrado... Si buscas un vuelo en especifico puedo avisarte cuando cambie de estado.";
+                        say.say = "Esto es lo que he encontrado... Si buscas *un vuelo en especifico* puedo avisarte cuando cambie de estado.";
                         actions.Add(say);
                     }
                 }
