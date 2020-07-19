@@ -130,10 +130,10 @@ namespace a2klab.Controllers
                 // Si no encontré nada busco por el numero de vuelo
                 list = (list.Count == 0)? vuelos.Where(x => (x.idaerolinea.ToUpper()+x.nro.ToUpper()).Replace("-","").Replace(" ","").Contains(filter.ToUpper().Replace("-","").Replace(" ",""))).ToList() : list;
 
-                if (filterOriginal.Contains("HORA"))
+                if (filterOriginal.Contains("HORA")) // esta preguntando por una hora?
                     list = (list.Count == 0)? vuelos.Where(x => x.stda.ToUpper().Replace(":","").Contains(filter.ToUpper().Replace(":",""))).ToList() : list;
             
-                if(list.Count>1)
+                if(list.Count>1) // Si es mas de uno retorno la lista de opciones pero no lo dejo registrarse
                 {
                     foreach(Flight p in list)
                     {
@@ -160,7 +160,7 @@ namespace a2klab.Controllers
                     say.say = "Esto es lo que he encontrado... Si buscas nuevamente, pero mas especifico puedo avisarte los cambios de estado.";
                     actions.Add(say);
                 }
-                else if(list.Count==1)
+                else if(list.Count==1) // Si es una opción lo dejo registrarse
                 {
                     foreach(Flight p in list)
                     {
@@ -210,7 +210,7 @@ namespace a2klab.Controllers
                         actions.Add(question);
                     }
                 }
-                else
+                else // Sino lo mando a freír churros
                 {
                         ActionSay say = new ActionSay();
                         say.say = "No pude encontrar nada relacionado con " + filter + ", si queres volver a intentarlo indicame *busca vuelo* nuevamente.";
@@ -232,7 +232,7 @@ namespace a2klab.Controllers
         /// TODO: Intentar usar algo como: https://medium.com/qu4nt/reducir-el-n%C3%BAmero-de-palabras-de-un-texto-lematizaci%C3%B3n-y-radicalizaci%C3%B3n-stemming-con-python-965bfd0c69fa
         private string Tokenize(string textInput)
         {
-            textInput = textInput.ToUpper().Replace("SANTIAGO DE CHILE","SANTIAGO_DE_CHILE").Replace("París".ToUpper(),"PARIS"); // Este es un nombre propio, si lo tokenizo tengo problemas
+            textInput = textInput.ToUpper().Replace("SANTIAGO DE CHILE","SANTIAGO_DE_CHILE").Replace("París".ToUpper(),"PARIS"); // Este es un nombre, si lo tokenizo tengo problemas
 
             string[] arrToCheck = new string[] { "VUELO","VIENE","ARRIBA","PARTE","DE","LA","QUE","EL","EN","Y","A","LOS","SE","DEL","LAS","UN","POR","CON","NO","UNA","SU","PARA","ES","AL","LO","COMO","MÁS","O","PERO","SUS","LE","HA","ME","SI","SIN","SOBRE","ESTE","YA","ENTRE","CUANDO","TODO","ESTA","SER","SON","DOS","TAMBIÉN","FUE","HABÍA","ERA","MUY","AÑOS","HASTA","DESDE","ESTÁ","MI","PORQUE","QUÉ","SÓLO","HAN","YO","HAY","VEZ","PUEDE","TODOS","ASÍ","NOS","NI","PARTE","TIENE","ÉL","UNO","DONDE","BIEN","TIEMPO","MISMO","ESE","AHORA","CADA","E","VIDA","OTRO","DESPUÉS","TE","OTROS","AUNQUE","ESA","ESO","HACE","OTRA","GOBIERNO","TAN","DURANTE","SIEMPRE","DÍA","TANTO","ELLA","TRES","SÍ","DIJO","SIDO","GRAN","PAÍS","SEGÚN","MENOS","AÑO","ANTES","ESTADO","CONTRA","SINO","FORMA","CASO","NADA","HACER","GENERAL","ESTABA","POCO","ESTOS","PRESIDENTE","MAYOR","ANTE","UNOS","LES","ALGO","HACIA","CASA","ELLOS","AYER","HECHO","PRIMERA","MUCHO","MIENTRAS","ADEMÁS","QUIEN","MOMENTO","MILLONES","ESTO","ESPAÑA","HOMBRE","ESTÁN","PUES","HOY","LUGAR","NACIONAL","TRABAJO","OTRAS","MEJOR","NUEVO","DECIR","ALGUNOS","ENTONCES","TODAS","DÍAS","DEBE","POLÍTICA","CÓMO","CASI","TODA","TAL","LUEGO","PASADO","PRIMER","MEDIO","VA","ESTAS","SEA","TENÍA","NUNCA","PODER","AQUÍ","VER","VECES","EMBARGO","PARTIDO","PERSONAS","GRUPO","CUENTA","PUEDEN","TIENEN","MISMA","NUEVA","CUAL","FUERON","MUJER","FRENTE","JOSÉ","TRAS","COSAS","FIN","CIUDAD","HE","SOCIAL","MANERA","TENER","SISTEMA","SERÁ","HISTORIA","MUCHOS","JUAN","TIPO","CUATRO","DENTRO","NUESTRO","PUNTO","DICE","ELLO","CUALQUIER","NOCHE","AÚN","AGUA","PARECE","HABER","SITUACIÓN","FUERA","BAJO","GRANDES","NUESTRA","EJEMPLO","ACUERDO","HABÍAN","USTED","ESTADOS","HIZO","NADIE","PAÍSES","HORAS","POSIBLE","TARDE","LEY","IMPORTANTE","GUERRA","DESARROLLO","PROCESO","REALIDAD","SENTIDO","LADO","MÍ","TU","CAMBIO","ALLÍ","MANO","ERAN","ESTAR","SAN","NÚMERO","SOCIEDAD","UNAS","CENTRO","PADRE","GENTE","FINAL","RELACIÓN","CUERPO","OBRA","INCLUSO","TRAVÉS","ÚLTIMO","MADRE","MIS","MODO","PROBLEMA","CINCO","CARLOS","HOMBRES","INFORMACIÓN","OJOS","MUERTE","NOMBRE","ALGUNAS","PÚBLICO","MUJERES","SIGLO","TODAVÍA","MESES","MAÑANA","ESOS","NOSOTROS","HORA","MUCHAS","PUEBLO","ALGUNA","DAR","PROBLEMA","DON","DA","TÚ","DERECHO","VERDAD","MARÍA","UNIDOS","PODRÍA","SERÍA","JUNTO","CABEZA","AQUEL","LUIS","CUANTO","TIERRA","EQUIPO","SEGUNDO","DIRECTOR","DICHO","CIERTO","CASOS","MANOS","NIVEL","PODÍA","FAMILIA","LARGO","PARTIR","FALTA","LLEGAR","PROPIO","MINISTRO","COSA","PRIMERO","SEGURIDAD","HEMOS","MAL","TRATA","ALGÚN","TUVO","RESPECTO","SEMANA","VARIOS","REAL","SÉ","VOZ","PASO","SEÑOR","MIL","QUIENES","PROYECTO","MERCADO","MAYORÍA","LUZ","CLARO","IBA","ÉSTE","PESETAS","ORDEN","ESPAÑOL","BUENA","QUIERE","AQUELLA","PROGRAMA","PALABRAS","INTERNACIONAL","VAN","ESAS","SEGUNDA","EMPRESA","PUESTO","AHÍ","PROPIA","M","LIBRO","IGUAL","POLÍTICO","PERSONA","ÚLTIMOS","ELLAS","TOTAL","CREO","TENGO","DIOS","C","ESPAÑOLA","CONDICIONES","MÉXICO","FUERZA","SOLO","ÚNICO","ACCIÓN","AMOR","POLICÍA","PUERTA","PESAR","ZONA","SABE","CALLE","INTERIOR","TAMPOCO","MÚSICA","NINGÚN","VISTA","CAMPO","BUEN","HUBIERA","SABER","OBRAS","RAZÓN","EX","NIÑOS","PRESENCIA","TEMA","DINERO","COMISIÓN","ANTONIO","SERVICIO","HIJO","ÚLTIMA","CIENTO","ESTOY","HABLAR","DIO","MINUTOS","PRODUCCIÓN","CAMINO","SEIS","QUIÉN","FONDO","DIRECCIÓN","PAPEL","DEMÁS","BARCELONA","IDEA","ESPECIAL","DIFERENTES","DADO","BASE","CAPITAL","AMBOS","EUROPA","LIBERTAD","RELACIONES","ESPACIO","MEDIOS","IR","ACTUAL","POBLACIÓN","EMPRESAS","ESTUDIO","SALUD","SERVICIOS","HAYA","PRINCIPIO","SIENDO","CULTURA","ANTERIOR","ALTO","MEDIA","MEDIANTE","PRIMEROS","ARTE","PAZ","SECTOR","IMAGEN","MEDIDA","DEBEN","DATOS","CONSEJO","PERSONAL","INTERÉS","JULIO","GRUPOS","MIEMBROS","NINGUNA","EXISTE","CARA","EDAD","ETC.","MOVIMIENTO","VISTO","LLEGÓ","PUNTOS","ACTIVIDAD","BUENO","USO","NIÑO","DIFÍCIL","JOVEN","FUTURO","AQUELLOS","MES","PRONTO","SOY","HACÍA","NUEVOS","NUESTROS","ESTABAN","POSIBILIDAD","SIGUE","CERCA","RESULTADOS","EDUCACIÓN","ATENCIÓN","GONZÁLEZ","CAPACIDAD","EFECTO","NECESARIO","VALOR","AIRE","INVESTIGACIÓN","SIGUIENTE","FIGURA","CENTRAL","COMUNIDAD","NECESIDAD","SERIE","ORGANIZACIÓ","NUEVAS","CALIDAD" };
             string reg = "";
