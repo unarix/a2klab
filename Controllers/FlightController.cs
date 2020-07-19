@@ -192,7 +192,7 @@ namespace a2klab.Controllers
                             Redirect r = new Redirect();
                             r.method = "POST";
                             //r.uri = "https://a2klab.azurewebsites.net/api/bot/Test";
-                            r.uri = "https://a2klab.azurewebsites.net/api/bot/Test";
+                            r.uri = "https://a2klab.azurewebsites.net/api/Flight/suscribe";
                         o.redirect = r;
                         c.on_complete = o;
                         
