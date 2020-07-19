@@ -45,9 +45,38 @@ namespace a2klab.Controllers
             List<Data> data;
             bool isExist = memoryCache.TryGetValue("Datas", out data);
             var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
-            if(!isExist) data = new List<Data>();
+            if(!isExist || data == null) data = new List<Data>();
             data.Add(newData);
             memoryCache.Set("Datas", data, cacheEntryOptions);
+        }
+
+        /// <summary>
+        /// Busca un vuelo
+        /// </summary>
+        /// <remarks>
+        /// TODO: Se podria buscar en la cache directamente para no hacer una llamada a la api!
+        /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
+        [HttpPost, Route("suscribe")]
+        [Consumes("application/x-www-form-urlencoded")]
+        public definitionsSay suscribeFlight([FromForm]string Memory)
+        {
+            var jsonObject = new JObject();
+            dynamic d = JObject.Parse(Memory.Replace("messaging.whatsapp","messaging_whatsapp"));
+            string phone = d.twilio.messaging_whatsapp.From;
+            string respuesta = d.twilio.collected_data.collect_notificarvuelo.answers.notificar_sino.answer;
+            List<Data> dta = getData(phone);
+
+            definitionsSay twilio = new definitionsSay();
+            List<Action> actions = new List<Action>();
+            ActionSay say = new ActionSay();
+            if(respuesta.ToUpper().Contains("SI"))
+                say.say = "Perfecto, ya te registre para el aviso del vuelo " + dta[0].flight + " al numero " + phone.ToUpper().Replace("WHATSAPP:","") + ". Que tal si buscas alguna de nuestras promociones mientras tanto? Puedo mostrartelas si contestas *ver productos*";
+            else
+                say.say = "Ok, no te registrare al vuelo " + dta[0].flight + ". Que tal si aprovechas alguna de nuestras promociones mientras tanto? Puedo mostrartelas si contestas *ver productos*";
+            actions.Add(say);
+            twilio.actions = actions;
+            return twilio;
         }
 
         /// <summary>
@@ -63,8 +92,8 @@ namespace a2klab.Controllers
         {
             var jsonObject = new JObject();
             dynamic d = JObject.Parse(Memory.Replace("messaging.whatsapp","messaging_whatsapp"));
-            string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda.answer;
             string phone = d.twilio.messaging_whatsapp.From;
+            string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda.answer;
             string filterOriginal = filter.ToUpper();
             
             var client = new RestClient("https://api.aa2000.com.ar/api/Vuelos?idarpt=EZE");
@@ -146,7 +175,7 @@ namespace a2klab.Controllers
                         Data dto = new Data();
                         dto.phone = phone;
                         dto.flightId = p.id;
-                        dto.flightId = p.nro;
+                        dto.flight = p.nro;
                         setData(dto); // Guardo lo que busco
 
                         ActionQuestion question = new ActionQuestion();
@@ -162,6 +191,7 @@ namespace a2klab.Controllers
                         OnComplete o = new OnComplete();
                             Redirect r = new Redirect();
                             r.method = "POST";
+                            //r.uri = "https://a2klab.azurewebsites.net/api/bot/Test";
                             r.uri = "https://a2klab.azurewebsites.net/api/bot/Test";
                         o.redirect = r;
                         c.on_complete = o;
