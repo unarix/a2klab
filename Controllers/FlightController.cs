@@ -39,7 +39,7 @@ namespace a2klab.Controllers
             var jsonObject = new JObject();
             dynamic d = JObject.Parse(Memory);
             string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda.answer;
-            string filterOriginal = filter;
+            string filterOriginal = filter.ToUpper();
             
             var client = new RestClient("https://api.aa2000.com.ar/api/Vuelos?idarpt=EZE");
             client.Timeout = -1;
@@ -65,7 +65,7 @@ namespace a2klab.Controllers
                 // Si no encontré nada busco por el numero de vuelo
                 list = (list.Count == 0)? vuelos.Where(x => (x.idaerolinea.ToUpper()+x.nro.ToUpper()).Replace("-","").Replace(" ","").Contains(filter.ToUpper().Replace("-","").Replace(" ",""))).ToList() : list;
 
-                if (filterOriginal.Contains("hora"))
+                if (filterOriginal.Contains("HORA"))
                     list = (list.Count == 0)? vuelos.Where(x => x.stda.ToUpper().Replace(":","").Contains(filter.ToUpper().Replace(":",""))).ToList() : list;
             
                 if(list.Count>0)
