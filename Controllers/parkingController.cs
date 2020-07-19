@@ -47,8 +47,8 @@ namespace a2klab.Controllers
             string tyc = d.twilio.collected_data.book_longstay.answers.tyc.answer;
             bool ok = tyc.ToUpper().Equals("SI");
 
-            DateTime desde = DateTime.Parse(Date_start + " " + Hour_start);
-            DateTime hasta = DateTime.Parse(Date_end + " " + Hour_end);
+            DateTime desde = DateTime.Parse(Date_start.Replace("2021","2020") + " " + Hour_start); // cuidado twillio enviá las fechas en formato ingles
+            DateTime hasta = DateTime.Parse(Date_end.Replace("2021","2020") + " " + Hour_end);
             //Tarjeta = Tarjeta.ToUpper().Equals("VISA") ? "1" : "4";
             
             definitionsSay twilio = new definitionsSay();
