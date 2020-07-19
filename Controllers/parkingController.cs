@@ -67,8 +67,8 @@ namespace a2klab.Controllers
                 actions.Add(say1);
             }
             else{
-                say.say = "Tu ticket *no fue encontrado*. Asegurate de ingresar bien todos los números del ticket."
-                +"\nEstare aquí por si me necesitas nuevamente!";
+                say.say = "Tu ticket " + ticket + " aparentemente *no existe*. Asegurate de ingresar bien todos los números del ticket."
+                +"\nVoy a estar aquí por si me necesitas nuevamente!";
                 actions.Add(say);
             }
             
