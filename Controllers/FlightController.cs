@@ -17,13 +17,38 @@ namespace a2klab.Controllers
     [ApiController]
     public class FlightController : Controller
     {
-        private IMemoryCache memoryCache;    
+        private IMemoryCache memoryCache;
+        
         string globalK = "BV0T1CVeqznoJdyI/pelufo/feTMApFedUOnZ/M";
 
         public FlightController(IMemoryCache memoryCache)    
         {    
-            this.memoryCache = memoryCache;    
+            this.memoryCache = memoryCache;
         }  
+
+
+        private List<Data> getData(string phone)
+        {
+            List<Data> data = new List<Data>();
+            bool isExist = memoryCache.TryGetValue("Datas", out data);
+            var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+            if(!isExist)
+                memoryCache.Set("Datas", data, cacheEntryOptions);  
+            
+            
+            data = data.Where(x => x.phone.ToUpper().Contains(phone.ToUpper())).ToList();
+            return data;
+        }
+
+        private void setData(Data newData)
+        {
+            List<Data> data;
+            bool isExist = memoryCache.TryGetValue("Datas", out data);
+            var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+            if(!isExist) data = new List<Data>();
+            data.Add(newData);
+            memoryCache.Set("Datas", data, cacheEntryOptions);
+        }
 
         /// <summary>
         /// Busca un vuelo
@@ -37,8 +62,9 @@ namespace a2klab.Controllers
         public definitionsSay flight([FromForm]string Memory)
         {
             var jsonObject = new JObject();
-            dynamic d = JObject.Parse(Memory);
+            dynamic d = JObject.Parse(Memory.Replace("messaging.whatsapp","messaging_whatsapp"));
             string filter = d.twilio.collected_data.collect_estado_vuelo.answers.vuelo_busqueda.answer;
+            string phone = d.twilio.messaging_whatsapp.From;
             string filterOriginal = filter.ToUpper();
             
             var client = new RestClient("https://api.aa2000.com.ar/api/Vuelos?idarpt=EZE");
@@ -68,7 +94,7 @@ namespace a2klab.Controllers
                 if (filterOriginal.Contains("HORA"))
                     list = (list.Count == 0)? vuelos.Where(x => x.stda.ToUpper().Replace(":","").Contains(filter.ToUpper().Replace(":",""))).ToList() : list;
             
-                if(list.Count>0)
+                if(list.Count>1)
                 {
                     foreach(Flight p in list)
                     {
@@ -89,6 +115,59 @@ namespace a2klab.Controllers
                         s.images.Add(image);
                         a.show = s;
                         actions.Add(a);
+
+                        ActionSay say = new ActionSay();
+                        say.say = "Esto es lo que he encontrado... Si buscas un vuelo en especifico puedo avisarte cuando cambie de estado.";
+                        actions.Add(say);
+                    }
+                }
+                else if(list.Count==1)
+                {
+                    foreach(Flight p in list)
+                    {
+                        Actionshow a = new Actionshow();
+                        Show s = new Show();
+                        s.body = ((p.mov.Equals("D"))? "*Partida*" : "*Arribo*") + " de la aerolínea *" + p.aerolinea + "*"
+                                + "\n - Nro vuelo: " + p.nro
+                                + "\n - " + ((p.mov.Equals("D"))? "Con destino: " : "Desde origen: ") + p.destorig
+                                + "\n - Hora estimada " + ((p.mov.Equals("D"))? "de partida: ": "de arribo: ") + ((p.term == null) ? "sin estima" : p.term)
+                                + "\n - Hora programada: " + p.stda
+                                + "\n - " + ((p.mov.Equals("D"))? "Checkin Nro: 0" + p.chk_from + " al 0" + p.chk_to : "Puerta: " + ((p.gate.Equals("") ? "no asignada" : p.gate)))
+                                + "\n - Terminal: " + ((p.term == null) ? "no asignada" : p.term)
+                                + "\n - Estado: *" + ((p.estes.Equals("")) ? "sin estado" : p.estes) + "*";
+                        s.images = new List<a2klab.Controllers.Image>();
+                        a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                        image.label = "logo aerolinea";
+                        image.url = "http://a2klab.azurewebsites.net/img/"+p.idaerolinea+"_200.jpg";
+                        s.images.Add(image);
+                        a.show = s;
+                        actions.Add(a);
+
+                        Data dto = new Data();
+                        dto.phone = phone;
+                        dto.flightId = p.id;
+                        dto.flightId = p.nro;
+                        setData(dto); // Guardo lo que busco
+
+                        ActionQuestion question = new ActionQuestion();
+                        Collect c = new Collect();
+                            c.name = "collect_notificarvuelo";
+                        List<Question> qs = new List<Question>();
+                            Question q = new Question();
+                            q.name = "notificar_sino";
+                            q.question = "Quieres que te avise cuando sale el vuelo?";
+                            q.type = "Custom.SI_NO";
+                        qs.Add(q);
+                        c.questions = qs;
+                        OnComplete o = new OnComplete();
+                            Redirect r = new Redirect();
+                            r.method = "POST";
+                            r.uri = "https://a2klab.azurewebsites.net/api/bot/Test";
+                        o.redirect = r;
+                        c.on_complete = o;
+                        
+                        question.collect = c;
+                        actions.Add(question);
                     }
                 }
                 else
@@ -115,7 +194,7 @@ namespace a2klab.Controllers
         {
             textInput = textInput.ToUpper().Replace("SANTIAGO DE CHILE","SANTIAGO_DE_CHILE").Replace("París".ToUpper(),"PARIS"); // Este es un nombre propio, si lo tokenizo tengo problemas
 
-            string[] arrToCheck = new string[] { "VIENE","ARRIBA","PARTE","DE","LA","QUE","EL","EN","Y","A","LOS","SE","DEL","LAS","UN","POR","CON","NO","UNA","SU","PARA","ES","AL","LO","COMO","MÁS","O","PERO","SUS","LE","HA","ME","SI","SIN","SOBRE","ESTE","YA","ENTRE","CUANDO","TODO","ESTA","SER","SON","DOS","TAMBIÉN","FUE","HABÍA","ERA","MUY","AÑOS","HASTA","DESDE","ESTÁ","MI","PORQUE","QUÉ","SÓLO","HAN","YO","HAY","VEZ","PUEDE","TODOS","ASÍ","NOS","NI","PARTE","TIENE","ÉL","UNO","DONDE","BIEN","TIEMPO","MISMO","ESE","AHORA","CADA","E","VIDA","OTRO","DESPUÉS","TE","OTROS","AUNQUE","ESA","ESO","HACE","OTRA","GOBIERNO","TAN","DURANTE","SIEMPRE","DÍA","TANTO","ELLA","TRES","SÍ","DIJO","SIDO","GRAN","PAÍS","SEGÚN","MENOS","AÑO","ANTES","ESTADO","CONTRA","SINO","FORMA","CASO","NADA","HACER","GENERAL","ESTABA","POCO","ESTOS","PRESIDENTE","MAYOR","ANTE","UNOS","LES","ALGO","HACIA","CASA","ELLOS","AYER","HECHO","PRIMERA","MUCHO","MIENTRAS","ADEMÁS","QUIEN","MOMENTO","MILLONES","ESTO","ESPAÑA","HOMBRE","ESTÁN","PUES","HOY","LUGAR","NACIONAL","TRABAJO","OTRAS","MEJOR","NUEVO","DECIR","ALGUNOS","ENTONCES","TODAS","DÍAS","DEBE","POLÍTICA","CÓMO","CASI","TODA","TAL","LUEGO","PASADO","PRIMER","MEDIO","VA","ESTAS","SEA","TENÍA","NUNCA","PODER","AQUÍ","VER","VECES","EMBARGO","PARTIDO","PERSONAS","GRUPO","CUENTA","PUEDEN","TIENEN","MISMA","NUEVA","CUAL","FUERON","MUJER","FRENTE","JOSÉ","TRAS","COSAS","FIN","CIUDAD","HE","SOCIAL","MANERA","TENER","SISTEMA","SERÁ","HISTORIA","MUCHOS","JUAN","TIPO","CUATRO","DENTRO","NUESTRO","PUNTO","DICE","ELLO","CUALQUIER","NOCHE","AÚN","AGUA","PARECE","HABER","SITUACIÓN","FUERA","BAJO","GRANDES","NUESTRA","EJEMPLO","ACUERDO","HABÍAN","USTED","ESTADOS","HIZO","NADIE","PAÍSES","HORAS","POSIBLE","TARDE","LEY","IMPORTANTE","GUERRA","DESARROLLO","PROCESO","REALIDAD","SENTIDO","LADO","MÍ","TU","CAMBIO","ALLÍ","MANO","ERAN","ESTAR","SAN","NÚMERO","SOCIEDAD","UNAS","CENTRO","PADRE","GENTE","FINAL","RELACIÓN","CUERPO","OBRA","INCLUSO","TRAVÉS","ÚLTIMO","MADRE","MIS","MODO","PROBLEMA","CINCO","CARLOS","HOMBRES","INFORMACIÓN","OJOS","MUERTE","NOMBRE","ALGUNAS","PÚBLICO","MUJERES","SIGLO","TODAVÍA","MESES","MAÑANA","ESOS","NOSOTROS","HORA","MUCHAS","PUEBLO","ALGUNA","DAR","PROBLEMA","DON","DA","TÚ","DERECHO","VERDAD","MARÍA","UNIDOS","PODRÍA","SERÍA","JUNTO","CABEZA","AQUEL","LUIS","CUANTO","TIERRA","EQUIPO","SEGUNDO","DIRECTOR","DICHO","CIERTO","CASOS","MANOS","NIVEL","PODÍA","FAMILIA","LARGO","PARTIR","FALTA","LLEGAR","PROPIO","MINISTRO","COSA","PRIMERO","SEGURIDAD","HEMOS","MAL","TRATA","ALGÚN","TUVO","RESPECTO","SEMANA","VARIOS","REAL","SÉ","VOZ","PASO","SEÑOR","MIL","QUIENES","PROYECTO","MERCADO","MAYORÍA","LUZ","CLARO","IBA","ÉSTE","PESETAS","ORDEN","ESPAÑOL","BUENA","QUIERE","AQUELLA","PROGRAMA","PALABRAS","INTERNACIONAL","VAN","ESAS","SEGUNDA","EMPRESA","PUESTO","AHÍ","PROPIA","M","LIBRO","IGUAL","POLÍTICO","PERSONA","ÚLTIMOS","ELLAS","TOTAL","CREO","TENGO","DIOS","C","ESPAÑOLA","CONDICIONES","MÉXICO","FUERZA","SOLO","ÚNICO","ACCIÓN","AMOR","POLICÍA","PUERTA","PESAR","ZONA","SABE","CALLE","INTERIOR","TAMPOCO","MÚSICA","NINGÚN","VISTA","CAMPO","BUEN","HUBIERA","SABER","OBRAS","RAZÓN","EX","NIÑOS","PRESENCIA","TEMA","DINERO","COMISIÓN","ANTONIO","SERVICIO","HIJO","ÚLTIMA","CIENTO","ESTOY","HABLAR","DIO","MINUTOS","PRODUCCIÓN","CAMINO","SEIS","QUIÉN","FONDO","DIRECCIÓN","PAPEL","DEMÁS","BARCELONA","IDEA","ESPECIAL","DIFERENTES","DADO","BASE","CAPITAL","AMBOS","EUROPA","LIBERTAD","RELACIONES","ESPACIO","MEDIOS","IR","ACTUAL","POBLACIÓN","EMPRESAS","ESTUDIO","SALUD","SERVICIOS","HAYA","PRINCIPIO","SIENDO","CULTURA","ANTERIOR","ALTO","MEDIA","MEDIANTE","PRIMEROS","ARTE","PAZ","SECTOR","IMAGEN","MEDIDA","DEBEN","DATOS","CONSEJO","PERSONAL","INTERÉS","JULIO","GRUPOS","MIEMBROS","NINGUNA","EXISTE","CARA","EDAD","ETC.","MOVIMIENTO","VISTO","LLEGÓ","PUNTOS","ACTIVIDAD","BUENO","USO","NIÑO","DIFÍCIL","JOVEN","FUTURO","AQUELLOS","MES","PRONTO","SOY","HACÍA","NUEVOS","NUESTROS","ESTABAN","POSIBILIDAD","SIGUE","CERCA","RESULTADOS","EDUCACIÓN","ATENCIÓN","GONZÁLEZ","CAPACIDAD","EFECTO","NECESARIO","VALOR","AIRE","INVESTIGACIÓN","SIGUIENTE","FIGURA","CENTRAL","COMUNIDAD","NECESIDAD","SERIE","ORGANIZACIÓ","NUEVAS","CALIDAD" };
+            string[] arrToCheck = new string[] { "VUELO","VIENE","ARRIBA","PARTE","DE","LA","QUE","EL","EN","Y","A","LOS","SE","DEL","LAS","UN","POR","CON","NO","UNA","SU","PARA","ES","AL","LO","COMO","MÁS","O","PERO","SUS","LE","HA","ME","SI","SIN","SOBRE","ESTE","YA","ENTRE","CUANDO","TODO","ESTA","SER","SON","DOS","TAMBIÉN","FUE","HABÍA","ERA","MUY","AÑOS","HASTA","DESDE","ESTÁ","MI","PORQUE","QUÉ","SÓLO","HAN","YO","HAY","VEZ","PUEDE","TODOS","ASÍ","NOS","NI","PARTE","TIENE","ÉL","UNO","DONDE","BIEN","TIEMPO","MISMO","ESE","AHORA","CADA","E","VIDA","OTRO","DESPUÉS","TE","OTROS","AUNQUE","ESA","ESO","HACE","OTRA","GOBIERNO","TAN","DURANTE","SIEMPRE","DÍA","TANTO","ELLA","TRES","SÍ","DIJO","SIDO","GRAN","PAÍS","SEGÚN","MENOS","AÑO","ANTES","ESTADO","CONTRA","SINO","FORMA","CASO","NADA","HACER","GENERAL","ESTABA","POCO","ESTOS","PRESIDENTE","MAYOR","ANTE","UNOS","LES","ALGO","HACIA","CASA","ELLOS","AYER","HECHO","PRIMERA","MUCHO","MIENTRAS","ADEMÁS","QUIEN","MOMENTO","MILLONES","ESTO","ESPAÑA","HOMBRE","ESTÁN","PUES","HOY","LUGAR","NACIONAL","TRABAJO","OTRAS","MEJOR","NUEVO","DECIR","ALGUNOS","ENTONCES","TODAS","DÍAS","DEBE","POLÍTICA","CÓMO","CASI","TODA","TAL","LUEGO","PASADO","PRIMER","MEDIO","VA","ESTAS","SEA","TENÍA","NUNCA","PODER","AQUÍ","VER","VECES","EMBARGO","PARTIDO","PERSONAS","GRUPO","CUENTA","PUEDEN","TIENEN","MISMA","NUEVA","CUAL","FUERON","MUJER","FRENTE","JOSÉ","TRAS","COSAS","FIN","CIUDAD","HE","SOCIAL","MANERA","TENER","SISTEMA","SERÁ","HISTORIA","MUCHOS","JUAN","TIPO","CUATRO","DENTRO","NUESTRO","PUNTO","DICE","ELLO","CUALQUIER","NOCHE","AÚN","AGUA","PARECE","HABER","SITUACIÓN","FUERA","BAJO","GRANDES","NUESTRA","EJEMPLO","ACUERDO","HABÍAN","USTED","ESTADOS","HIZO","NADIE","PAÍSES","HORAS","POSIBLE","TARDE","LEY","IMPORTANTE","GUERRA","DESARROLLO","PROCESO","REALIDAD","SENTIDO","LADO","MÍ","TU","CAMBIO","ALLÍ","MANO","ERAN","ESTAR","SAN","NÚMERO","SOCIEDAD","UNAS","CENTRO","PADRE","GENTE","FINAL","RELACIÓN","CUERPO","OBRA","INCLUSO","TRAVÉS","ÚLTIMO","MADRE","MIS","MODO","PROBLEMA","CINCO","CARLOS","HOMBRES","INFORMACIÓN","OJOS","MUERTE","NOMBRE","ALGUNAS","PÚBLICO","MUJERES","SIGLO","TODAVÍA","MESES","MAÑANA","ESOS","NOSOTROS","HORA","MUCHAS","PUEBLO","ALGUNA","DAR","PROBLEMA","DON","DA","TÚ","DERECHO","VERDAD","MARÍA","UNIDOS","PODRÍA","SERÍA","JUNTO","CABEZA","AQUEL","LUIS","CUANTO","TIERRA","EQUIPO","SEGUNDO","DIRECTOR","DICHO","CIERTO","CASOS","MANOS","NIVEL","PODÍA","FAMILIA","LARGO","PARTIR","FALTA","LLEGAR","PROPIO","MINISTRO","COSA","PRIMERO","SEGURIDAD","HEMOS","MAL","TRATA","ALGÚN","TUVO","RESPECTO","SEMANA","VARIOS","REAL","SÉ","VOZ","PASO","SEÑOR","MIL","QUIENES","PROYECTO","MERCADO","MAYORÍA","LUZ","CLARO","IBA","ÉSTE","PESETAS","ORDEN","ESPAÑOL","BUENA","QUIERE","AQUELLA","PROGRAMA","PALABRAS","INTERNACIONAL","VAN","ESAS","SEGUNDA","EMPRESA","PUESTO","AHÍ","PROPIA","M","LIBRO","IGUAL","POLÍTICO","PERSONA","ÚLTIMOS","ELLAS","TOTAL","CREO","TENGO","DIOS","C","ESPAÑOLA","CONDICIONES","MÉXICO","FUERZA","SOLO","ÚNICO","ACCIÓN","AMOR","POLICÍA","PUERTA","PESAR","ZONA","SABE","CALLE","INTERIOR","TAMPOCO","MÚSICA","NINGÚN","VISTA","CAMPO","BUEN","HUBIERA","SABER","OBRAS","RAZÓN","EX","NIÑOS","PRESENCIA","TEMA","DINERO","COMISIÓN","ANTONIO","SERVICIO","HIJO","ÚLTIMA","CIENTO","ESTOY","HABLAR","DIO","MINUTOS","PRODUCCIÓN","CAMINO","SEIS","QUIÉN","FONDO","DIRECCIÓN","PAPEL","DEMÁS","BARCELONA","IDEA","ESPECIAL","DIFERENTES","DADO","BASE","CAPITAL","AMBOS","EUROPA","LIBERTAD","RELACIONES","ESPACIO","MEDIOS","IR","ACTUAL","POBLACIÓN","EMPRESAS","ESTUDIO","SALUD","SERVICIOS","HAYA","PRINCIPIO","SIENDO","CULTURA","ANTERIOR","ALTO","MEDIA","MEDIANTE","PRIMEROS","ARTE","PAZ","SECTOR","IMAGEN","MEDIDA","DEBEN","DATOS","CONSEJO","PERSONAL","INTERÉS","JULIO","GRUPOS","MIEMBROS","NINGUNA","EXISTE","CARA","EDAD","ETC.","MOVIMIENTO","VISTO","LLEGÓ","PUNTOS","ACTIVIDAD","BUENO","USO","NIÑO","DIFÍCIL","JOVEN","FUTURO","AQUELLOS","MES","PRONTO","SOY","HACÍA","NUEVOS","NUESTROS","ESTABAN","POSIBILIDAD","SIGUE","CERCA","RESULTADOS","EDUCACIÓN","ATENCIÓN","GONZÁLEZ","CAPACIDAD","EFECTO","NECESARIO","VALOR","AIRE","INVESTIGACIÓN","SIGUIENTE","FIGURA","CENTRAL","COMUNIDAD","NECESIDAD","SERIE","ORGANIZACIÓ","NUEVAS","CALIDAD" };
             string reg = "";
 
             foreach (string word in arrToCheck )
@@ -128,6 +207,11 @@ namespace a2klab.Controllers
     }
 }
 
+public class Data    {
+    public string phone { get; set; } 
+    public string flightId { get; set; } 
+    public string flight { get; set; } 
+}
 
 public class Flight    {
     public string id { get; set; } 

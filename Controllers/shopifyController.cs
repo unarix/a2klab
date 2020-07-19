@@ -36,7 +36,6 @@ namespace a2klab.Controllers
         {
             var jsonObject = new JObject();
             dynamic d = JObject.Parse(Memory);
-
             string filter = d.twilio.collected_data.collect_buscar_producto.answers.producto_busqueda.answer;
 
             Root products;
@@ -76,25 +75,23 @@ namespace a2klab.Controllers
             }
             else
             {
-                    Actionshow a = new Actionshow();
-                    Show s = new Show();
-                    s.body = "No encontré nada con el nombre " + filter;
-                    s.images = new List<a2klab.Controllers.Image>();
-                    a2klab.Controllers.Image image = new a2klab.Controllers.Image();
-                    image.label = "Url del producto";
-                    image.url = "";
-                    s.images.Add(image);
-                    a.show = s;
-                    actions.Add(a);
-                    ActionSay say = new ActionSay();
-                    say.say =  "En que mas te puedo ayudar?";
-                    actions.Add(say);
+                Actionshow a = new Actionshow();
+                Show s = new Show();
+                s.body = "No encontré nada con el nombre " + filter;
+                s.images = new List<a2klab.Controllers.Image>();
+                a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                image.label = "Url del producto";
+                image.url = "";
+                s.images.Add(image);
+                a.show = s;
+                actions.Add(a);
+                ActionSay say = new ActionSay();
+                say.say =  "En que mas te puedo ayudar?";
+                actions.Add(say);
             }
-        
 
             twilio.actions = actions;
             return twilio;
-
         }
 
         /// <summary>
@@ -107,7 +104,6 @@ namespace a2klab.Controllers
         [HttpPost("{filter}")]
         public definitionsSay ResponseBot(string filter)
         {
-            
             Root products;
          
             var client = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/products.json?fields=id,images,title,handle,variants");
@@ -140,13 +136,6 @@ namespace a2klab.Controllers
                     a.show = s;
                     actions.Add(a);
                     i=i+1;
-                    //if (i>5)
-                    //{
-                        //ActionRedirect redirect = new ActionRedirect();
-                        //redirect.redirect = "task://task_esperar";
-                        //actions.Add(redirect);
-                    //    break;
-                    //}
                 }
             }
             else
@@ -300,7 +289,9 @@ namespace a2klab.Controllers
 
     }
 
-// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+    
+    
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
     public class Question    {
         public string question { get; set; } 
         public string name { get; set; } 
@@ -338,29 +329,31 @@ namespace a2klab.Controllers
 
     }
 
-    public class Actionshow : Action   {
-        //public string say { get; set; } 
-        //public Collect collect { get; set; } 
-        public Show show { get; set; } 
-
-    }
-
-    public class Action    {
-        
-    }
-
-   public class definitionsSay    {
+   public class definitionsSay {
         public List<Action> actions { get; set; } 
 
     }
 
-    public class ActionRedirect : Action   {
+    public class Action {
+        
+    }
+
+    public class Actionshow : Action   {
+        public Show show { get; set; } 
+
+    }
+
+    public class ActionRedirect : Action {
         public string redirect { get; set; } 
     }
 
-    public class ActionSay : Action   {
+    public class ActionSay : Action {
         public string say { get; set; } 
     }
+    
+    public class ActionQuestion : Action  {
+        public Collect collect { get; set; } 
 
+    }
 
 }
