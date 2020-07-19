@@ -154,11 +154,11 @@ namespace a2klab.Controllers
                         s.images.Add(image);
                         a.show = s;
                         actions.Add(a);
-
-                        ActionSay say = new ActionSay();
-                        say.say = "Esto es lo que he encontrado... Si buscas *un vuelo en especifico* puedo avisarte cuando cambie de estado.";
-                        actions.Add(say);
                     }
+                    
+                    ActionSay say = new ActionSay();
+                    say.say = "Esto es lo que he encontrado... Si buscas nuevamente, pero mas especifico puedo avisarte los cambios de estado.";
+                    actions.Add(say);
                 }
                 else if(list.Count==1)
                 {
