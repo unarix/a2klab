@@ -89,12 +89,20 @@
             Este método tokeniza el texto enviado, tratando de quitar las palabras comunes.
             TODO: Intentar usar algo como: https://medium.com/qu4nt/reducir-el-n%C3%BAmero-de-palabras-de-un-texto-lematizaci%C3%B3n-y-radicalizaci%C3%B3n-stemming-con-python-965bfd0c69fa
         </member>
+        <member name="M:a2klab.Controllers.ParkingController.longstay(System.String)">
+            <summary>
+            Crea un booking de longstay
+            </summary>
+            <remarks>
+            TODO: Mientras miran nuestro juego ya creamos algo nuevo 
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.ParkingController.Ticket(System.String)">
             <summary>
             Retorna el precio de un ticket
             </summary>
             <remarks>
-            TODO: limpiar 
+            TODO: todos al piso!
             </remarks>
         </member>
         <member name="M:a2klab.Controllers.RodoCopController.RodoCopQry">
