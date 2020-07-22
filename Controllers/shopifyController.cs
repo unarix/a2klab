@@ -38,7 +38,7 @@ namespace a2klab.Controllers
             dynamic d = JObject.Parse(Memory);
             string filter = d.twilio.collected_data.collect_buscar_producto.answers.producto_busqueda.answer;
 
-            Root collect;
+            CollectionList collections;
          
             var client = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/smart_collections.json?fields=id,title,handle");
             client.Timeout = -1;
@@ -47,26 +47,24 @@ namespace a2klab.Controllers
             request.AddHeader("Cookie", "_master_udr=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWszTUdFMFpUSTBaQzFrT1RZeExUUTFaV0V0WVRjNFppMWtOMkV6TnpFd1lqQm1OMllHT2daRlJnPT0iLCJleHAiOiIyMDIyLTA3LTAzVDIwOjEyOjQyLjA1N1oiLCJwdXIiOiJjb29raWUuX21hc3Rlcl91ZHIifX0%3D--1e7946d971f744818706ad361f949d1fb9718c68; _secure_admin_session_id_csrf=86009cb6da5c57a5eac86a9ea2dc0447; _secure_admin_session_id=86009cb6da5c57a5eac86a9ea2dc0447; __cfduid=d3fa2dbec9914f470e845022dbb39e1d71593806347; _orig_referrer=https%3A%2F%2Fcf9b75249b9308b87d8b26b88c6713a0%3A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%40ezelab.myshopify.com%2Fadmin%2Fapi%2F2020-07%2Fproducts.json%26fields%3Dchivas; _shopify_y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _landing_page=%2Fadmin%2Fauth%2Flogin");
             IRestResponse response = client.Execute(request);
             
-            collect = JsonConvert.DeserializeObject<Root>(response.Content);
+            collections = JsonConvert.DeserializeObject<CollectionList>(response.Content);
 
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
             
-            List<Collect> list = collect;
+            List<Collection> list = collections.collections;
 
             if(list.Count>0)
             {
-                Actionshow a = new Actionshow();
-                Show s = new Show();
+                ActionSay say = new ActionSay();
 
-                s.body = "Que deseas comprar?";
+                say.say = "Que deseas comprar?";
 
-                foreach(Collect c in list)
+                foreach(Collection c in list)
                 {
-                    s.body += " "+c.title;
+                    say.say += " "+c.title;
                 }
-                a.show = s;
-                actions.Add(a);
+                actions.Add(say);
             }
             else
             {
@@ -335,6 +333,20 @@ namespace a2klab.Controllers
         public bool requires_shipping { get; set; } 
         public string admin_graphql_api_id { get; set; } 
 
+    }
+
+    public class Collection {
+        
+        public object id { get; set; }
+
+        public string title { get; set; }
+
+        public string handle { get; set;}
+    }
+
+    public class CollectionList {
+
+        public List<Collection> collections { get; set;}
     }
 
     public class Product    {
