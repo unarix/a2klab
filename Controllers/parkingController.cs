@@ -59,11 +59,11 @@ namespace a2klab.Controllers
                 {
                     ActionSay say = new ActionSay();
                     say.say = "Los siguientes datos han sido utilizados para la pre reserva."
-                    +"\n *Entrada:* " + desde.ToString()
-                    +"\n *Salida:* " + hasta.ToString()
-                    +"\n *Vehículo:* " + Patente
-                    +"\n *Tarjeta:* " + Tarjeta
-                    +"\n Utiliza el siguiente link para realizar el pago y confirmar tu reserva."
+                    +"\n - *Entrada:* " + desde.ToString()
+                    +"\n - *Salida:* " + hasta.ToString()
+                    +"\n - *Vehículo:* " + Patente
+                    +"\n - *Tarjeta:* " + Tarjeta
+                    +"\nUtiliza el siguiente link para realizar el pago y confirmar tu reserva."
                     + "\nHTTPS://api.aa2000.com.ar/WEBFORMS/PAYPARK.ASPX?IDNS_TARJETA=1&NROOPERACION=XX8&MONTOE=1&MONTOD=00&CATEG=3";
                     actions.Add(say);
                 }
