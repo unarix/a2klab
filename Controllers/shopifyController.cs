@@ -30,9 +30,95 @@ namespace a2klab.Controllers
         /// Se podria buscar en la cache directamente para no hacer una llamada a la api de shopify
         /// </remarks>
         [EnableCors("SiteCorsPolicy")]
+        [HttpPost, Route("obtenerColleccion")]
+        [Consumes("application/x-www-form-urlencoded")]
+        public definitionsSay obtenerColleccion([FromForm]string Memory)
+        {
+            var jsonObject = new JObject();
+            dynamic d = JObject.Parse(Memory);
+            string filter = d.twilio.collected_data.collect_listarproducto.answers.nombre_coleccion.answer;
+
+            sCollection collections;
+         
+            var client = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/smart_collections.json?fields=id,title,handle");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("Authorization", "Basic Y2Y5Yjc1MjQ5YjkzMDhiODdkOGIyNmI4OGM2NzEzYTA6c2hwcGFfMDkxMWNkODBhMzYzMmQ5MzEyODE5MTM5ZDJiYTkzOWY=");
+            request.AddHeader("Cookie", "_master_udr=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWszTUdFMFpUSTBaQzFrT1RZeExUUTFaV0V0WVRjNFppMWtOMkV6TnpFd1lqQm1OMllHT2daRlJnPT0iLCJleHAiOiIyMDIyLTA3LTAzVDIwOjEyOjQyLjA1N1oiLCJwdXIiOiJjb29raWUuX21hc3Rlcl91ZHIifX0%3D--1e7946d971f744818706ad361f949d1fb9718c68; _secure_admin_session_id_csrf=86009cb6da5c57a5eac86a9ea2dc0447; _secure_admin_session_id=86009cb6da5c57a5eac86a9ea2dc0447; __cfduid=d3fa2dbec9914f470e845022dbb39e1d71593806347; _orig_referrer=https%3A%2F%2Fcf9b75249b9308b87d8b26b88c6713a0%3A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%40ezelab.myshopify.com%2Fadmin%2Fapi%2F2020-07%2Fproducts.json%26fields%3Dchivas; _shopify_y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _landing_page=%2Fadmin%2Fauth%2Flogin");
+            IRestResponse response = client.Execute(request);
+            
+            collections = JsonConvert.DeserializeObject<sCollection>(response.Content);
+
+            definitionsSay twilio = new definitionsSay();
+            List<Action> actions = new List<Action>();
+            
+            // Primero de las colecciones busco la que me vino en el filtro
+            List<SmartCollection> list = collections.smart_collections.Where(x => x.title.ToUpper().Contains(filter.ToUpper())).ToList();
+
+            // Si encontró algo me quedo con la primer opción
+            if(list.Count>0)
+            {
+                SmartCollection s = list[0];
+                Root products;
+                var client2 = new RestClient("https://ezelab.myshopify.com/admin/api/2020-10/products.json?collection_id=" + s.id + "&fields=id,images,title,handle,variants");
+                client.Timeout = -1;
+                var request2 = new RestRequest(Method.GET);
+                request2.AddHeader("Authorization", "Basic Y2Y5Yjc1MjQ5YjkzMDhiODdkOGIyNmI4OGM2NzEzYTA6c2hwcGFfMDkxMWNkODBhMzYzMmQ5MzEyODE5MTM5ZDJiYTkzOWY=");
+                request2.AddHeader("Cookie", "_master_udr=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWszTUdFMFpUSTBaQzFrT1RZeExUUTFaV0V0WVRjNFppMWtOMkV6TnpFd1lqQm1OMllHT2daRlJnPT0iLCJleHAiOiIyMDIyLTA3LTAzVDIwOjEyOjQyLjA1N1oiLCJwdXIiOiJjb29raWUuX21hc3Rlcl91ZHIifX0%3D--1e7946d971f744818706ad361f949d1fb9718c68; _secure_admin_session_id_csrf=86009cb6da5c57a5eac86a9ea2dc0447; _secure_admin_session_id=86009cb6da5c57a5eac86a9ea2dc0447; __cfduid=d3fa2dbec9914f470e845022dbb39e1d71593806347; _orig_referrer=https%3A%2F%2Fcf9b75249b9308b87d8b26b88c6713a0%3A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%40ezelab.myshopify.com%2Fadmin%2Fapi%2F2020-07%2Fproducts.json%26fields%3Dchivas; _shopify_y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _y=88933032-3e5f-4ae7-8cd5-e2a4b8020e51; _landing_page=%2Fadmin%2Fauth%2Flogin");
+                IRestResponse response2 = client2.Execute(request2);
+                products = JsonConvert.DeserializeObject<Root>(response2.Content);
+                List<Product> list2 = products.products;
+
+                if(list2.Count>0)
+                {
+                    foreach (Product p in list2)
+                    {
+                        Actionshow a = new Actionshow();
+                        Show sh = new Show();
+                        sh.body = p.title + "\n - Precio: $" + p.variants[0].price;
+                        sh.body = sh.body + "\n - La url para comprar el producto es: https://ezelab.myshopify.com/products/" + p.handle;
+                        sh.images = new List<a2klab.Controllers.Image>();
+                        a2klab.Controllers.Image image = new a2klab.Controllers.Image();
+                        image.label = "Url del producto";
+                        image.url = p.images[0].src;
+                        sh.images.Add(image);
+                        a.show = sh;
+                        actions.Add(a);
+                    }
+                }
+                else
+                {
+                    ActionSay say = new ActionSay();
+                    say.say =  "Lo lamento, no encontre nada con ese nombre. En que mas te puedo ayudar?";
+                    actions.Add(say);
+                }
+            }
+            else
+            {
+                Actionshow a = new Actionshow();
+                Show s = new Show();
+                s.body = "No encontré nada con ese nombre";
+                a.show = s;
+                actions.Add(a);
+                ActionSay say = new ActionSay();
+                say.say =  "No encontré nada con el nombre " + filter;
+                actions.Add(say);
+            }
+
+            twilio.actions = actions;
+            return twilio;
+        }
+
+        /// <summary>
+        /// Busca todas las colecciones
+        /// </summary>
+        /// <remarks>
+        /// Se podria buscar en la cache directamente para no hacer una llamada a la api de shopify
+        /// </remarks>
+        [EnableCors("SiteCorsPolicy")]
         [HttpPost, Route("BuscarColecciones")]
         [Consumes("application/x-www-form-urlencoded")]
-        public definitionsSay buscarColleccionesTest()
+        public definitionsSay buscarColleccionesTest([FromForm]string Memory)
         {
             //var jsonObject = new JObject();
             //dynamic d = JObject.Parse(Memory);
