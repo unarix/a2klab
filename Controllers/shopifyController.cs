@@ -162,8 +162,8 @@ namespace a2klab.Controllers
                     {
                         q.question += "\n - *" + sm.title + "*";
                     }
-                    q.question += "\n - Ver todos los productos";
-                    q.type = "Twilio.FIRST_NAME";
+                    q.question += "\n - *Ver todos los productos*";
+                    q.type = "";
                 qs.Add(q);
                 c.questions = qs;
                 OnComplete o = new OnComplete();
