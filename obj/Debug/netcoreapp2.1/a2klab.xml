@@ -130,7 +130,7 @@
             Simplemente la ejecución elimina todos los path del server; se debe utilizar solo para depurar.
             </remarks>
         </member>
-        <member name="M:a2klab.Controllers.ShopifyController.buscarColleccionesTest(System.String)">
+        <member name="M:a2klab.Controllers.ShopifyController.buscarColleccionesTest">
             <summary>
             Busca todas las colecciones
             </summary>
