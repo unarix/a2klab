@@ -220,7 +220,7 @@ namespace a2klab.Controllers
             else
             {
                 ActionSay say = new ActionSay();
-                say.say = "Que tal si intentas con algo que realmente pueda encontrar?. Estare aquí si me necesitas de nuevo!";
+                say.say = "Aparentemente hay un problema buscando: " + filter + ". Si quieres buscarl algo mas estare aca...";
                 actions.Add(say);
             }
             

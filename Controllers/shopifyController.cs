@@ -221,7 +221,7 @@ namespace a2klab.Controllers
             definitionsSay twilio = new definitionsSay();
             List<Action> actions = new List<Action>();
             
-            List<Product> list = products.products.Where(x => x.title.ToUpper().Contains(filter.ToUpper())).ToList();
+            List<Product> list = products.products.Where(x => x.title.ToUpper().Replace("'","").Contains(filter.Replace("'","").ToUpper())).ToList();
 
             if(list.Count>0)
             {
