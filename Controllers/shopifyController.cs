@@ -32,11 +32,11 @@ namespace a2klab.Controllers
         [EnableCors("SiteCorsPolicy")]
         [HttpPost, Route("BuscarColecciones")]
         [Consumes("application/x-www-form-urlencoded")]
-        public definitionsSay buscarColleccionesTest([FromForm]string Memory)
+        public definitionsSay buscarColleccionesTest()
         {
-            var jsonObject = new JObject();
-            dynamic d = JObject.Parse(Memory);
-            string filter = d.twilio.collected_data.collect_buscar_producto.answers.producto_busqueda.answer;
+            //var jsonObject = new JObject();
+            //dynamic d = JObject.Parse(Memory);
+            //string filter = d.twilio.collected_data.collect_buscar_producto.answers.producto_busqueda.answer;
 
             CollectionList collections;
          
