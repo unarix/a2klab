@@ -194,7 +194,7 @@ namespace a2klab.Controllers
                         List<Question> qs = new List<Question>();
                             Question q = new Question();
                             q.name = "notificar_sino";
-                            q.question = "Quieres que te avise cuando sale el vuelo?";
+                            q.question = "Quieres que te avise de los cambios de estado de este vuelo?";
                             q.type = "Custom.SI_NO";
                         qs.Add(q);
                         c.questions = qs;
