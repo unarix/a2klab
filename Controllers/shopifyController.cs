@@ -244,18 +244,8 @@ namespace a2klab.Controllers
             }
             else
             {
-                Actionshow a = new Actionshow();
-                Show s = new Show();
-                s.body = "No encontré nada con el nombre " + filter;
-                s.images = new List<a2klab.Controllers.Image>();
-                a2klab.Controllers.Image image = new a2klab.Controllers.Image();
-                image.label = "Url del producto";
-                image.url = "";
-                s.images.Add(image);
-                a.show = s;
-                actions.Add(a);
                 ActionSay say = new ActionSay();
-                say.say =  "En que mas te puedo ayudar?";
+                say.say =  "No encontré nada con el nombre " + filter + ", prueba con *Productos y Servicios* y te voy a mostrar que podes comprar.";
                 actions.Add(say);
             }
 
