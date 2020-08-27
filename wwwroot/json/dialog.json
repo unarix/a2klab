@@ -5,7 +5,7 @@
 				"name": "book_fastpass",
 				"questions": [
 					{
-						"question": "Antes, necesito que me respondas las siguientes preguntas: con que medio de pago realizaras la compra? *American Express* o *Visa*?",
+						"question": "Antes, necesito que me respondas las siguientes preguntas: con que medio de pago realizaras la compra? *American* o *Visa*?",
 						"prefill": "tarjeta",
 						"name": "Tarjeta",
 						"type": "Twilio.FIRST_NAME",
@@ -13,9 +13,9 @@
 							"allowed_values": {
 								"list": [
 									"Visa",
-									"American Express",
+									"American",
 									"visa",
-									"american express"
+									"american"
 								]
 							},
 							"on_failure": {

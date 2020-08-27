@@ -53,7 +53,7 @@ namespace a2klab.Controllers
 
             if(ok){
                 ActionSay say = new ActionSay();
-                say.say = "🚗 Los siguientes datos han sido utilizados para la pre reserva."
+                say.say = "Los siguientes datos han sido utilizados para la pre reserva."
                 +"\n - *Cantidad:* " + cantidad.ToString()
                 +"\n - *Dia:* " + Date_end.ToString()
                 +"\n - *A nombre de:* " + apellido
