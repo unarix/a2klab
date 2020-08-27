@@ -69,6 +69,14 @@
             </remarks>
             DELETE api/values/5
         </member>
+        <member name="M:a2klab.Controllers.FastpassController.comprar(System.String)">
+            <summary>
+            Crea un booking de fastpass
+            </summary>
+            <remarks>
+            TODO: Les cerramo too el telón
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.FlightController.suscribeFlight(System.String)">
             <summary>
             Busca un vuelo
@@ -135,7 +143,7 @@
             Busca todas las colecciones
             </summary>
             <remarks>
-            Se podria buscar en la cache directamente para no hacer una llamada a la api de shopify
+            TODO: IMPLEMENTAR CACHE SI O SI!
             </remarks>
         </member>
         <member name="M:a2klab.Controllers.ShopifyController.buscarColleccionesTest(System.String)">
@@ -160,6 +168,14 @@
             </summary>
             <remarks>
             Obtiene todo el listado de productos por unos 3600 segundos, si expiro lo vuelve a obtener.
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.ShopifyController.todosProductos">
+            <summary>
+            Retorna todos los productos
+            </summary>
+            <remarks>
+            TODO: IMPLEMENTAR CHACHE SI O SI!!
             </remarks>
         </member>
         <member name="M:a2klab.Controllers.SnapController.Index">

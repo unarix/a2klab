@@ -1,0 +1,103 @@
+{
+	"actions": [
+		{
+			"collect": {
+				"name": "book_fastpass",
+				"questions": [
+					{
+						"question": "Antes, necesito que me respondas las siguientes preguntas: con que medio de pago realizaras la compra? *American Express* o *Visa*?",
+						"prefill": "tarjeta",
+						"name": "Tarjeta",
+						"type": "Twilio.FIRST_NAME",
+						"validate": {
+							"allowed_values": {
+								"list": [
+									"Visa",
+									"American Express",
+									"visa",
+									"american express"
+								]
+							},
+							"on_failure": {
+								"messages": [
+									{
+										"say": "Perdon esa no parece ser una tarjeta valida."
+									},
+									{
+										"say": "Hmm, *Visa* o *American Exress*?"
+									}
+								],
+								"repeat_question": true
+							},
+							"on_success": {
+								"say": "Genial"
+							}
+						}
+					},
+					{
+						"question": "Que cantidad de pases queres comprar? Ingresa con un numero, por ejemplo '2'",
+						"prefill": "cantidad",
+						"name": "Cantidad",
+						"type": "Twilio.NUMBER",
+						"validate": {
+							"allowed_values": {
+								"list": [
+									"1",
+									"2",
+									"3",
+									"4",
+									"5",
+									"6",
+									"7",
+									"8",
+									"9",
+									"10"
+								]
+							},
+							"on_failure": {
+								"messages": [
+									{
+										"say": "Perdon esa no parece ser una cantidad valida... (puedes comprar hasta diez pases)."
+									},
+									{
+										"say": "Hmm, puedes comprar hasta *diez pases*?"
+									}
+								],
+								"repeat_question": true
+							},
+							"on_success": {
+								"say": "Genial"
+							}
+						}
+					},
+					{
+						"question": "Para que fecha? \n_Ejemplo: 17/9_",
+						"prefill": "Date_end",
+						"name": "Date_end",
+						"type": "Twilio.DATE"
+					},
+					{
+						"question": "Para que *hora*? \n_Ejemplo: 22:00_",
+						"prefill": "Time_end",
+						"name": "Hour_end",
+						"type": "Twilio.TIME"
+					},
+					{
+						"question": "Aceptas los terminos y condiciones? \nhttps://api.aa2000.com.ar/webforms/resp_ls.html \n_Si/No_",
+						"prefill": "Tyc",
+						"name": "tyc",
+						"type": "Custom.SI_NO"
+					},
+					{
+						"question": "Por favor decime tu nombre y apellido y tu numero de DNI",
+						"prefill": "apellido_dni",
+						"name": "apellido_dni"
+					}
+				],
+				"on_complete": {
+					"redirect": "https://a2klab.azurewebsites.net/api/Fastpass/comprar"
+				}
+			}
+		}
+	]
+}
