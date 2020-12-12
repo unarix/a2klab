@@ -84,13 +84,17 @@ namespace a2klab
                 options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
             });
             
-            //Levanto la configuracion de la solucion desde el AppSettings
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            var settings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+            AppSettings conf = new AppSettings();
+            CosmosDb cosmo = new CosmosDb();
+            cosmo.Account = Configuration["AppSettings:CosmosDb:Account"];
+            cosmo.ContainerName = Configuration["AppSettings:CosmosDb:ContainerName"];
+            cosmo.DatabaseName = Configuration["AppSettings:CosmosDb:DatabaseName"];
+            cosmo.Key = Configuration["AppSettings:CosmosDb:Key"];
+            conf.CosmosDb = cosmo;
 
             //tratar de hacer el Singleton a la DB Cosmos
             try{                
-                services.AddSingleton<ICosmosDBService>(InitializeCosmosClientInstanceAsync(settings).GetAwaiter().GetResult());
+                services.AddSingleton<ICosmosDBService>(InitializeCosmosClientInstanceAsync(conf).GetAwaiter().GetResult());
             }
             catch(Exception ex){
                 // Nothing to do here.
