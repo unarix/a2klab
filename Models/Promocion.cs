@@ -13,7 +13,10 @@ namespace a2klab.Models
         [JsonProperty(PropertyName = "descripcion")]
         public string Descripcion { get; set; }
 
-        [JsonProperty(PropertyName = "link")]
-        public bool Link { get; set; }
+        [JsonProperty(PropertyName = "linkurl")]
+        public string LinkUrl { get; set; }
+        
+        [JsonProperty(PropertyName = "linkimagen")]
+        public string LinkImagen { get; set; }
     }
 }

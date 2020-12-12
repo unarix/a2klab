@@ -97,6 +97,14 @@
             Este método tokeniza el texto enviado, tratando de quitar las palabras comunes.
             TODO: Intentar usar algo como: https://medium.com/qu4nt/reducir-el-n%C3%BAmero-de-palabras-de-un-texto-lematizaci%C3%B3n-y-radicalizaci%C3%B3n-stemming-con-python-965bfd0c69fa
         </member>
+        <member name="M:a2klab.Controllers.NovedadesController.obtenerPromos(System.String)">
+            <summary>
+            Busca todas las colecciones
+            </summary>
+            <remarks>
+            TODO: IMPLEMENTAR CACHE SI O SI!
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.ParkingController.longstay(System.String)">
             <summary>
             Crea un booking de longstay
