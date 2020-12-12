@@ -86,10 +86,10 @@ namespace a2klab
             
             AppSettings conf = new AppSettings();
             CosmosDb cosmo = new CosmosDb();
-            cosmo.Account = Configuration["AppSettings:CosmosDb:Account"];
-            cosmo.ContainerName = Configuration["AppSettings:CosmosDb:ContainerName"];
-            cosmo.DatabaseName = Configuration["AppSettings:CosmosDb:DatabaseName"];
-            cosmo.Key = Configuration["AppSettings:CosmosDb:Key"];
+            cosmo.Account = Configuration["Account"];
+            cosmo.ContainerName = Configuration["ContainerName"];
+            cosmo.DatabaseName = Configuration["DatabaseName"];
+            cosmo.Key = Configuration["Key"];
             conf.CosmosDb = cosmo;
 
             //tratar de hacer el Singleton a la DB Cosmos
