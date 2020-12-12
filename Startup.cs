@@ -4,27 +4,36 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using a2klab.BusinessLogic;
+using a2klab.Models;
+using a2klab.Services;
 
 namespace a2klab
 {
     public class Startup
     {
+
+        public IConfiguration Configuration { get; }
+        public static string databaseName { get; set; }
+        public static string containerName { get; set; }
+        public static string account { get; set; }
+        public static string key { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -75,6 +84,17 @@ namespace a2klab
                 options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
             });
             
+            //Levanto la configuracion de la solucion desde el AppSettings
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            var settings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+
+            //tratar de hacer el Singleton a la DB Cosmos
+            try{                
+                services.AddSingleton<ICosmosDBService>(InitializeCosmosClientInstanceAsync(settings).GetAwaiter().GetResult());
+            }
+            catch(Exception ex){
+                // Nothing to do here.
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,7 +116,7 @@ namespace a2klab
                 c.InjectStylesheet("/help/custom.css");  
                 c.DocumentTitle = "AA2000 devLab";
                 //c.("/swagger-ui/custom.js");  
-                //c.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("/help/index.html"); // requires file to be added as an embedded resource
+                //c.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("/help/index.html");
             });
 
             if (env.IsDevelopment())
@@ -112,9 +132,27 @@ namespace a2klab
             app.UseMvc();
             
             // ********************
-            // USAR CORS
+            // USAR CORS!
             // ********************
             app.UseCors("SiteCorsPolicy");
+        }
+
+        private static async Task<CosmosDBService> InitializeCosmosClientInstanceAsync(AppSettings settings)
+        {     
+            
+            databaseName = settings.CosmosDb.DatabaseName;
+            containerName = settings.CosmosDb.ContainerName;
+            account = settings.CosmosDb.Account;
+            key = settings.CosmosDb.Key;
+
+            CosmosClient client = new CosmosClient(account, key);
+
+            CosmosDBService cosmosDBService = new CosmosDBService(client, databaseName, containerName);
+            DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+
+            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+            return cosmosDBService;
         }
     }
 }

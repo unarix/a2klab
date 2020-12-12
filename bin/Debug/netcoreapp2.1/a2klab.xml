@@ -113,6 +113,46 @@
             TODO: todos al piso!
             </remarks>
         </member>
+        <member name="M:a2klab.Controllers.PromocionesController.GetAll">
+            <summary>
+            El servicio obtiene todas las promociones
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.PromocionesController.Get(System.String)">
+            <summary>
+            El servicio obtiene una determinada promocion por su ID
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.PromocionesController.InsertPromo(a2klab.Models.Promocion)">
+            <summary>
+            El servicio inserta una promocion
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.PromocionesController.EditPromo(a2klab.Models.Promocion)">
+            <summary>
+            El servicio actualiza una determinada promocion
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="M:a2klab.Controllers.PromocionesController.DeleteBook(a2klab.Models.Promocion)">
+            <summary>
+            El servicio elimina una determinada promocion
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.RodoCopController.RodoCopQry">
             <summary>
             El servicio carga los archivos enviados por el presentador en su respectiva carpeta
