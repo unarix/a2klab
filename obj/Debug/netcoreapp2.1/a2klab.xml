@@ -266,6 +266,14 @@
             Setea el token de autorización
             </remarks>
         </member>
+        <member name="M:a2klab.Controllers.UserController.Get(System.String,System.String,System.String)">
+            <summary>
+            Integra: servicio de validacion de usuarios
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
         <member name="M:a2klab.Controllers.Utils.Index(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Recorta una imagen

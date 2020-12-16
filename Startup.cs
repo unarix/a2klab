@@ -23,7 +23,6 @@ namespace a2klab
 {
     public class Startup
     {
-
         public IConfiguration Configuration { get; }
         public static string databaseName { get; set; }
         public static string containerName { get; set; }
@@ -95,6 +94,7 @@ namespace a2klab
             //tratar de hacer el Singleton a la DB Cosmos
             try{                
                 services.AddSingleton<ICosmosDBService>(InitializeCosmosClientInstanceAsync(conf).GetAwaiter().GetResult());
+                services.AddSingleton<IUsersDBService>(InitializeUsersClientInstanceAsync(conf).GetAwaiter().GetResult());
             }
             catch(Exception ex){
                 // Nothing to do here.
@@ -157,6 +157,24 @@ namespace a2klab
             await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
 
             return cosmosDBService;
+        }
+
+        private static async Task<UsersDBService> InitializeUsersClientInstanceAsync(AppSettings settings)
+        {     
+            
+            databaseName = settings.CosmosDb.DatabaseName;
+            containerName = settings.CosmosDb.ContainerName;
+            account = settings.CosmosDb.Account;
+            key = settings.CosmosDb.Key;
+
+            CosmosClient client = new CosmosClient(account, key);
+
+            UsersDBService usersDBService = new UsersDBService(client, databaseName, "Users");
+            DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+
+            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+            return usersDBService;
         }
     }
 }
