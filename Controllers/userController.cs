@@ -40,7 +40,7 @@ namespace a2klab.Controllers
 
             if (!users.Any())
             {
-                return await Task.FromResult(StatusCode((int)HttpStatusCode.OK, "Empty"));
+                return await Task.FromResult(StatusCode((int)HttpStatusCode.InternalServerError, "Empty"));
             }
             else
             {
@@ -51,7 +51,7 @@ namespace a2klab.Controllers
                 }
             }
 
-            return await Task.FromResult(StatusCode((int)HttpStatusCode.OK, "The user not match or the check pass fail; ensure system too."));
+            return await Task.FromResult(StatusCode((int)HttpStatusCode.InternalServerError, "The user not match or the check pass fail; ensure system too."));
         }
     }
 }
